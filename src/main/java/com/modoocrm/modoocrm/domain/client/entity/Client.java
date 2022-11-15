@@ -1,4 +1,4 @@
-package com.modoocrm.modoocrm.domain.management.entity;
+package com.modoocrm.modoocrm.domain.client.entity;
 
 import com.modoocrm.modoocrm.domain.base.BaseModel;
 import lombok.Getter;

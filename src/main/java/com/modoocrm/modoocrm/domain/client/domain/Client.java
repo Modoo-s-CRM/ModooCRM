@@ -1,9 +1,7 @@
-package com.modoocrm.modoocrm.domain.management.domain;
+package com.modoocrm.modoocrm.domain.client.domain;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

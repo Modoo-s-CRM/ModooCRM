@@ -1,19 +1,19 @@
-package com.modoocrm.modoocrm.api.management.controller;
+package com.modoocrm.modoocrm.api.client.controller;
 
-import com.modoocrm.modoocrm.api.management.service.ApiClientService;
+import com.modoocrm.modoocrm.api.client.service.ApiClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/management")
+@RequestMapping("/api/client")
 @RequiredArgsConstructor
 public class ApiClientController {
 
     private final ApiClientService apiClientService;
 
-    @PostMapping
+    @PostMapping("/management")
     public String registerClient(){
 
     }

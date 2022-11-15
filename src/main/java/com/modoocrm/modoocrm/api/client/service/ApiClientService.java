@@ -1,4 +1,4 @@
-package com.modoocrm.modoocrm.api.management.service;
+package com.modoocrm.modoocrm.api.client.service;
 
 import org.springframework.stereotype.Service;
 
