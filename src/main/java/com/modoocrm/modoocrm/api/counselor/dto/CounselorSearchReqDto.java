@@ -1,12 +1,10 @@
 package com.modoocrm.modoocrm.api.counselor.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CounselorSearchReqDto {
 
     private Integer date;
@@ -14,11 +12,5 @@ public class CounselorSearchReqDto {
     private String counselorName;
 
     private String counselType;
-
-    public CounselorSearchReqDto(Integer date, String counselorName, String counselType){
-        this.date = date;
-        this.counselorName = counselorName;
-        this.counselType = counselType;
-    }
 
 }
