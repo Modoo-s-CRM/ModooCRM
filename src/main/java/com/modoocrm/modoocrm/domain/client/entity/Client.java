@@ -1,26 +1,25 @@
 package com.modoocrm.modoocrm.domain.client.entity;
 
 import com.modoocrm.modoocrm.domain.base.BaseModel;
-import lombok.Getter;
-import lombok.Setter;
+import com.modoocrm.modoocrm.domain.counselor.entity.Counselor;
+import com.modoocrm.modoocrm.domain.parents.entity.Parents;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "client")
-@Getter @Setter
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)//무분별한 객체 생성에 대해 한번 더 체크
 public class Client extends BaseModel {
 
     @Id
     @Column(name = "client_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long clientId;
 
     @Column(nullable = false, length = 10)
     private String clientName;
-
-    @Column(nullable = false, length = 10)
-    private String counselorName;
 
     @Column(nullable = false, length = 20 )
     private String birth;
@@ -76,7 +75,45 @@ public class Client extends BaseModel {
     @Column(nullable = true)
     private String specialNote;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parents_id")
+    private Parents parents;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "counselor_id")
+    private Counselor counselor;
+
+    @Builder
+    public Client(String clientName, String birth, int age,
+                  boolean clientGender, String address, String phone,
+                  String hobby, String height, String weight,
+                  String education, String marry, String job,
+                  String counselType, String counselMethod,
+                  String inflowPath, String symptom,
+                  String counselHistory, String counselProgress,
+                  String specialNote,Parents parents, Counselor counselor){
+        this.clientName = clientName;
+        this.birth = birth;
+        this.age = age;
+        this.clientGender = clientGender;
+        this.address = address;
+        this.phone = phone;
+        this.hobby = hobby;
+        this.height = height;
+        this.weight = weight;
+        this.education = education;
+        this.marry = marry;
+        this.job = job;
+        this.counselType = counselType;
+        this.counselMethod = counselMethod;
+        this.inflowPath = inflowPath;
+        this.symptom = symptom;
+        this.counselHistory = counselHistory;
+        this.counselProgress = counselProgress;
+        this.specialNote = specialNote;
+        this.parents = parents;
+        this.counselor = counselor;
+    }
 
 
 }
