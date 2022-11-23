@@ -6,9 +6,10 @@ import javax.persistence.*;
 
 @ToString
 @Getter
+@Setter
 @Entity
 @Table(name = "COUNSELOR")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Counselor {
 
     @Id
