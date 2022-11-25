@@ -29,16 +29,7 @@ public class CounselImage {
     @Column
     private String landscape;
 
-    @Column
-    private String sagunja;
-
-    @Column
-    private String sentence;
-
-    @Column
-    private String anyothers;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "client_id")
     private Client client;
 }

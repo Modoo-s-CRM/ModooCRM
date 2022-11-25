@@ -47,25 +47,6 @@ public class ClientRegisterReqDto {
 
     private String specialNote;
 
-    public Parents tempParents(){
-        Parents parents = new Parents();
-        parents.setParentsId(1L);
-        parents.setParentsName("김정근");
-        parents.setAge(31);
-        parents.setEducation("대졸");
-        parents.setJob("개발자");
-        parents.setTogether("동거");
-        return parents;
-    }
-
-    public Counselor counselor(){
-        Counselor counselor = new Counselor();
-        counselor.setCounselorId(1L);
-        counselor.setCounselorName("안자미");
-        counselor.setCounselorGender(false);
-        return counselor;
-    }
-
 
     //엔티티화
     public Client toEntity(){
@@ -89,8 +70,6 @@ public class ClientRegisterReqDto {
                 .counselHistory(counselHistory)
                 .counselProgress(counselProgress)
                 .specialNote(specialNote)
-                .parents(tempParents())
-                .counselor(counselor())
                 .build();
     }
 
