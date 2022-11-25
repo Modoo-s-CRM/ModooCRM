@@ -19,8 +19,16 @@ public class ClientServiceImpl implements ClientService{
 
     @Override
     public void registerClient(Client client){
-        System.out.println("***********************"+client.getClientName());
-        System.out.println("***********************"+client.getParents().getParentsName());
         clientRepository.save(client);
+    }
+
+    @Override
+    public void updateClient(Client client){
+        clientRepository.save(client);
+    }
+
+    @Override
+    public void deleteClient(Client client){
+        clientRepository.delete(client);
     }
 }

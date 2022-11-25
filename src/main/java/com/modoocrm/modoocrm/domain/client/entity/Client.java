@@ -115,5 +115,8 @@ public class Client extends BaseModel {
         this.counselor = counselor;
     }
 
+    public void setClientId(Long clientId){
+        this.clientId = clientId;
+    }
 
 }
