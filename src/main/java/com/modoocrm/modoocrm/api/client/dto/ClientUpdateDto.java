@@ -1,13 +1,11 @@
 package com.modoocrm.modoocrm.api.client.dto;
 
 import com.modoocrm.modoocrm.domain.client.entity.Client;
-import com.modoocrm.modoocrm.domain.counselor.entity.Counselor;
-import com.modoocrm.modoocrm.domain.parents.entity.Parents;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class ClientRegisterReqDto {
+public class ClientUpdateDto {
 
     private String clientName;
 

@@ -8,10 +8,13 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
+//@JsonPropertyOrder :
 @JsonPropertyOrder({"code", "message", "result"})
 public class BaseResponse<T> {
     private final String message;
     private final int code;
+
+    //@JsonUnclude :
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T result;
 

@@ -1,11 +1,11 @@
 package com.modoocrm.modoocrm.domain.client.entity;
 
 import com.modoocrm.modoocrm.domain.base.BaseModel;
+import com.modoocrm.modoocrm.domain.counseldiary.entity.CounselDiary;
+import com.modoocrm.modoocrm.domain.counselimage.entity.CounselImage;
 import com.modoocrm.modoocrm.domain.counselor.entity.Counselor;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.modoocrm.modoocrm.domain.parents.entity.Parents;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -77,6 +77,14 @@ public class Client extends BaseModel {
     @Column(nullable = true)
     private String specialNote;
 
+    @OneToOne
+    @JoinColumn(name = "counsel_image_id")
+    private CounselImage counselImage;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "counsel_diary_id")
+    private CounselDiary counselDiary;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parents_id")
     private Parents parents;
@@ -117,6 +125,8 @@ public class Client extends BaseModel {
         this.counselor = counselor;
     }
 
+    public void setClientId(Long clientId){
+        this.clientId = clientId;
+    }
 
 }
-
