@@ -17,7 +17,7 @@ import java.util.Date;
 public class CounselDiary {
 
     @Id
-    @Column(name = "counselDiary_id")
+    @Column(name = "counsel_diary_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long diaryId;
 

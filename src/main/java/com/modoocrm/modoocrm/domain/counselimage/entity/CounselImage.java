@@ -11,20 +11,20 @@ import javax.persistence.*;
 @ToString
 @Entity
 @Getter
-@Table(name = "COUSELIMAGE")
+@Table(name = "COUNSELIMAGE")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CounselImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "counselImage_id")
+    @Column(name = "counsel_image_id")
     private Long counselImageId;
 
     @Column
     private String applicationForm;
 
     @Column
-    private String selfaptitude;
+    private String selfAptitude;
 
     @Column
     private String landscape;

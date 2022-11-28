@@ -1,6 +1,8 @@
 package com.modoocrm.modoocrm.domain.client.entity;
 
 import com.modoocrm.modoocrm.domain.base.BaseModel;
+import com.modoocrm.modoocrm.domain.counseldiary.entity.CounselDiary;
+import com.modoocrm.modoocrm.domain.counselimage.entity.CounselImage;
 import com.modoocrm.modoocrm.domain.counselor.entity.Counselor;
 import com.modoocrm.modoocrm.domain.parents.entity.Parents;
 import lombok.*;
@@ -74,6 +76,14 @@ public class Client extends BaseModel {
 
     @Column(nullable = true)
     private String specialNote;
+
+    @OneToOne
+    @JoinColumn(name = "counsel_image_id")
+    private CounselImage counselImage;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "counsel_diary_id")
+    private CounselDiary counselDiary;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parents_id")

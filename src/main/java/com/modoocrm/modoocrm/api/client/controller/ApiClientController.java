@@ -1,5 +1,6 @@
 package com.modoocrm.modoocrm.api.client.controller;
 
+import com.modoocrm.modoocrm.api.client.dto.ClientInfoRepDto;
 import com.modoocrm.modoocrm.api.client.dto.ClientRegisterReqDto;
 import com.modoocrm.modoocrm.api.client.dto.ClientUpdateDto;
 import com.modoocrm.modoocrm.api.client.service.ApiClientService;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 public class ApiClientController {
 
     private final ApiClientService apiClientService;
+
+//    @GetMapping
+//    public ClientInfoRepDto
 
     @PostMapping
     public String registerClient(@RequestBody ClientRegisterReqDto clientRegisterReqDto){
