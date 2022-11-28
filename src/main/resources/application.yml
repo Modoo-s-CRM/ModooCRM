@@ -5,9 +5,10 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://modoo-crm.cvirdmm6s8ym.ap-northeast-2.rds.amazonaws.com:3306/modoo
-    username: Modoo_admin
-    password: ${PASSWORD}
+#    url : jdbc:mysql://modoo-crm.cvirdmm6s8ym.ap-northeast-2.rds.amazonaws.com:3306/modoo
+    url:
+    username:
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
