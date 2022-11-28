@@ -18,7 +18,7 @@ public class ApiCounselorService {
     private final CounselorService counselorService;
 
     public List<CounselorSearchResDto> searchCounselor(CounselorSearchReqDto counselorSearchReqDto){
-        List<Counselor> allCounselor = counselorService
+//        List<Counselor> allCounselor = counselorService
         return null;
 
     }
