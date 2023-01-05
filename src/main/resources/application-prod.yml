@@ -1,9 +1,0 @@
-spring:
-  # todo 운영 db 연결 추가
-  jpa:
-    hibernate:
-      ddl-auto: none
-
-logging:
-  level:
-    com.app: info # todo 패키지 수정
