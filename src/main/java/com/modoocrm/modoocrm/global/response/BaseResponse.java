@@ -26,7 +26,7 @@ public class BaseResponse<T> {
         this.result = result;
     }
 
-    //요청 실패
+//    요청 실패
     public BaseResponse(BaseResponseStatus status){
         this.message = status.getMessage();
         this.code = status.getCode();
