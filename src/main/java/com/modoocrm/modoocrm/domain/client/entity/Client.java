@@ -22,78 +22,98 @@ public class Client extends BaseModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long clientId;
 
+    @Setter
     @Column(nullable = false, length = 10)
     private String clientName;
 
+    @Setter
     @Column(nullable = false, length = 20 )
     private LocalDate birth;
 
+    @Setter
     @Column(nullable = false)
     private int age;
 
+    @Setter
     @Column(nullable = false)
     private String clientGender;
 
+    @Setter
     @Column(nullable = false, length = 50)
     private String address;
 
+    @Setter
     @Column(nullable = false, length = 15)
     private String phone;
 
+    @Setter
     @Column(length = 50)
     private String hobby;
 
+    @Setter
     @Column(length = 10)
     private String height;
 
+    @Setter
     @Column(length = 10)
     private String weight;
 
+    @Setter
     @Column(length = 10)
     private String educationInfo;
 
+    @Setter
     @Column(nullable = false, length = 10)
     private String marry;
 
+    @Setter
     @Column(nullable = false, length = 20)
     private String job;
 
+    @Setter
     @Column(nullable = false, length = 20)
     private String counselType;
 
+    @Setter
     @Column(nullable = false, length = 20)
     private String counselMethod;
 
+    @Setter
     @Column(nullable = false, length = 20)
     private String inflowPath;
 
+    @Setter
     @Column(nullable = false, length = 30)
     private String symptom;
 
+    @Setter
     @Column(nullable = false, length = 20)
     private String counselHistory;
 
+    @Setter
     @Column(nullable = false, length = 20)
     private String counselProgress;
 
+    @Setter
     @Column(nullable = false)
     private LocalDateTime firstCounsel;
 
+    @Setter
     @Column
     private String specialNote;
 
-    @OneToOne
-    @JoinColumn(name = "counsel_image_id")
+    @Setter
+    @OneToOne(mappedBy = "client")
     private CounselImage counselImage;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "counsel_diary_id")
     private CounselDiary counselDiary;
 
-    @OneToOne
-    @JoinColumn(name = "parents_id")
+    @OneToOne(mappedBy = "client")
     private Parents parents;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "counselor_id")
     private Counselor counselor;

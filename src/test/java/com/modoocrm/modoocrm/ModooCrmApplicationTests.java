@@ -1,10 +1,10 @@
-package com.codestates.todoapp;
+package com.modoocrm.modoocrm;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TodoAppApplicationTests {
+class ModooCrmApplicationTests {
 
     @Test
     void contextLoads() {

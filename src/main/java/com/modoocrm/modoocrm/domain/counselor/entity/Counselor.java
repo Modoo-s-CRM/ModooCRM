@@ -1,15 +1,18 @@
 package com.modoocrm.modoocrm.domain.counselor.entity;
 
+import com.modoocrm.modoocrm.domain.client.entity.Client;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @ToString
 @Getter
 @Setter
 @Entity
 @Table(name = "COUNSELOR")
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Counselor {
 
     @Id
@@ -21,12 +24,23 @@ public class Counselor {
     private String counselorName;
 
     @Column(nullable = false)
-    private Boolean counselorGender;
+    private String counselorGender;
+
+    @OneToMany(mappedBy = "counselor")
+    private List<Client> clients = new ArrayList<>();
 
     @Builder
-    public Counselor(String counselorName, Boolean counselorGender){
+    public Counselor(Long counselorId,String counselorName, String counselorGender){
+        this.counselorId = counselorId;
         this.counselorName = counselorName;
         this.counselorGender = counselorGender;
+    }
+
+    public void addClient(Client client){
+        this.clients.add(client);
+        if (client.getCounselor() != this){
+            client.setCounselor(this);
+        }
     }
 
 }
