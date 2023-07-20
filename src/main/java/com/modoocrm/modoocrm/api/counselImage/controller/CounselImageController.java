@@ -25,4 +25,10 @@ public class CounselImageController {
         counselImageService.uploadCounselImage(clientId,multipartFile);
         return new ResponseEntity(HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{client-id}/img")
+    public ResponseEntity deleteCounselImage(@Positive @PathVariable("client-id") Long clientId){
+        counselImageService.deleteCounselImage(clientId);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 }

@@ -1,12 +1,11 @@
 package com.modoocrm.modoocrm.domain.counselimage.service;
 
 import com.modoocrm.modoocrm.domain.client.entity.Client;
-import com.modoocrm.modoocrm.domain.client.service.ClientService;
+import com.modoocrm.modoocrm.domain.client.service.ClientServiceImpl;
 import com.modoocrm.modoocrm.domain.counselimage.entity.CounselImage;
 import com.modoocrm.modoocrm.domain.counselimage.repository.CounselImageRepository;
 import com.modoocrm.modoocrm.global.error.exception.BusinessLogicException;
 import com.modoocrm.modoocrm.global.error.exception.ExceptionCode;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,10 +19,10 @@ import java.util.List;
 public class CounselImageServiceImpl implements CounselImageService {
 
     private final CounselImageRepository counselImageRepository;
-    private final ClientService clientService;
+    private final ClientServiceImpl clientService;
     private final ImgService imgService;
 
-    public CounselImageServiceImpl(CounselImageRepository counselImageRepository, ClientService clientService, ImgService imgService) {
+    public CounselImageServiceImpl(CounselImageRepository counselImageRepository, ClientServiceImpl clientService, ImgService imgService) {
         this.counselImageRepository = counselImageRepository;
         this.clientService = clientService;
         this.imgService = imgService;
@@ -50,6 +49,7 @@ public class CounselImageServiceImpl implements CounselImageService {
                     .landscapeImagePath(landScapeImagePath)
                     .build();
 
+            counselImage.setClient(client);
             counselImageRepository.save(counselImage);
         }catch (IOException e){
             throw new BusinessLogicException(ExceptionCode.IMAGE_UPLOAD_FAILED);
@@ -64,4 +64,79 @@ public class CounselImageServiceImpl implements CounselImageService {
         imgService.saveImageToFolder(filePath,multipartFile);
         return imgService.generateImageLink(client,fileName,folderPath);
     }
+
+    @Override
+    public void deleteCounselImage(Long clientId) {
+        Client client = clientService.findVerifiedClient(clientId);
+        Long counselImgId = client.getCounselImage().getCounselImageId();
+        CounselImage counselImage = this.findVerifiedCounselImg(counselImgId);
+
+        //이미지 파일 경로를 가져오자
+        String applicationFormImagePath = counselImage.getApplicationFormImagePath();
+        String selfAptitudeImagePath = counselImage.getSelfAptitudeImagePath();
+        String landscapeImagePath = counselImage.getLandscapeImagePath();
+
+        //이미지 파일 삭제
+        deleteImageFile(applicationFormImagePath);
+        deleteImageFile(selfAptitudeImagePath);
+        deleteImageFile(landscapeImagePath);
+
+        //폴더 삭제
+        String folderPath = getFolderPath(applicationFormImagePath);
+        deleteFolder(folderPath);
+
+        counselImageRepository.delete(counselImage);
+
+    }
+
+    private CounselImage findVerifiedCounselImg(Long counselImgId){
+        return counselImageRepository.findById(counselImgId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND)
+        );
+    }
+
+    //이미지 파일 삭제 로직
+    private void deleteImageFile(String imagePath){
+        if (imagePath != null){
+            File imageFile = new File(imagePath);
+            if (imageFile.exists()) {
+                boolean isDeleted = imageFile.delete();
+                if (!isDeleted){
+                    throw new BusinessLogicException(ExceptionCode.IMAGE_FILE_NOT_DELETE);
+                }
+            }
+        }
+    }
+
+    //이미지 폴더 삭제
+    private void deleteFolder(String folderPath){
+        if (folderPath != null){
+            File folder = new File(folderPath);
+            if (folder.exists() && folder.isDirectory()){
+                File[] files = folder.listFiles();
+                if (files != null){
+                    for (File file : files){
+                        boolean isDeleted = file.delete();
+                        if (!isDeleted){
+                            throw new BusinessLogicException(ExceptionCode.IMAGE_FILE_NOT_DELETE);
+                        }
+                    }
+                }
+                boolean isDeleted = folder.delete();
+                if (!isDeleted){
+                    throw new BusinessLogicException(ExceptionCode.IMAGE_FILE_NOT_DELETE);
+                }
+            }
+        }
+    }
+
+    private String getFolderPath(String imagePath){
+        if (imagePath != null){
+            File imageFile = new File(imagePath);
+            File parentFolder = imageFile.getParentFile();
+            return  parentFolder != null ? parentFolder.getAbsolutePath() : null;
+        }
+        return null;
+    }
+
 }

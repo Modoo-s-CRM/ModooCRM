@@ -7,4 +7,6 @@ import java.util.List;
 public interface CounselImageService {
 
     void uploadCounselImage(Long clientId, List<MultipartFile> multipartFile);
+
+    void deleteCounselImage(Long clientId);
 }

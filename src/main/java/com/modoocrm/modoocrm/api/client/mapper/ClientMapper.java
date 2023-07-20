@@ -1,12 +1,15 @@
 package com.modoocrm.modoocrm.api.client.mapper;
 
 import com.modoocrm.modoocrm.api.client.dto.ClientRegisterDto;
+import com.modoocrm.modoocrm.api.client.dto.ClientSearchResponseDto;
 import com.modoocrm.modoocrm.domain.client.entity.Client;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class ClientMapper {
@@ -38,4 +41,23 @@ public class ClientMapper {
                 .specialNote(clientRegisterDto.getSpecialNote())
                 .build();
     }
+
+    public ClientSearchResponseDto clientToClientSearchResponseDto(Client client){
+        ClientSearchResponseDto clientSearchResponseDto = ClientSearchResponseDto.builder()
+                .clientId(client.getClientId())
+                .clientName(client.getClientName())
+                .birth(client.getBirth())
+                .counselorName(client.getCounselor().getCounselorName())
+                .build();
+        return clientSearchResponseDto;
+    }
+
+    public List<ClientSearchResponseDto> clientSearchResponseDtos(List<Client> searchClient){
+        List<ClientSearchResponseDto> clientSearchResponseDtos = new ArrayList<>(searchClient.size());
+        for (Client client : searchClient){
+            clientSearchResponseDtos.add(this.clientToClientSearchResponseDto(client));
+        }
+        return clientSearchResponseDtos;
+    }
+
 }

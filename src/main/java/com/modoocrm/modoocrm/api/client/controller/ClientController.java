@@ -3,22 +3,23 @@ package com.modoocrm.modoocrm.api.client.controller;
 import com.modoocrm.modoocrm.api.client.dto.ClientRegisterDto;
 import com.modoocrm.modoocrm.api.client.mapper.ClientMapper;
 import com.modoocrm.modoocrm.domain.client.entity.Client;
-import com.modoocrm.modoocrm.domain.client.service.ClientService;
+import com.modoocrm.modoocrm.domain.client.service.ClientServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 @RequestMapping("/api")
 @RestController
 public class ClientController {
 
     private final ClientMapper clientMapper;
-    private final ClientService clientService;
+    private final ClientServiceImpl clientService;
 
-    public ClientController(ClientMapper clientMapper, ClientService clientService) {
+    public ClientController(ClientMapper clientMapper, ClientServiceImpl clientService) {
         this.clientMapper = clientMapper;
         this.clientService = clientService;
     }
@@ -37,7 +38,14 @@ public class ClientController {
         String counselor = clientRegisterDto.getCounselorName();
         Client saveClient = clientMapper.clientRegisterDtoToClient(clientRegisterDto);
         clientService.updateClient(saveClient,clientId,counselor);
-        //무한재귀 문제 -> mapper 사용
+        //무한재귀 문제 -> response 요청시 mapper 사용
         return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
+    //Todo 검색어 자동 완성 -> Advance한 내용..
+    @GetMapping("/client/lookup")
+    public ResponseEntity searchClient(@RequestParam("keyword") String keyword){
+        List<Client> clients = clientService.searchClient(keyword);
+        return new ResponseEntity(clientMapper.clientSearchResponseDtos(clients),HttpStatus.OK);
     }
 }

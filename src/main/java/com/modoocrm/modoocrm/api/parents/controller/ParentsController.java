@@ -25,6 +25,7 @@ public class ParentsController {
         this.parentsService = parentsService;
     }
 
+    //부모등록
     @PostMapping("/parents/{client-id}")
     public ResponseEntity registerParents(@Valid @RequestBody ParentsRegisterDto parentsRegisterDto,
                                           @Positive @PathVariable("client-id") Long clientId){
@@ -33,6 +34,16 @@ public class ParentsController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    //부모수정
+    @PatchMapping("/parents/{parents-id}")
+    public ResponseEntity updateParents(@Valid @RequestBody ParentsRegisterDto parentsRegisterDto,
+                                        @Positive @PathVariable("parents-id") Long parentsId){
+        Parents updateParents = parentsMapper.parentsRegisterDtoToParents(parentsRegisterDto);
+        parentsService.updateParents(updateParents,parentsId);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
+    //부모정보 가져오기
     @GetMapping("/parents/{client-id}")
     public ResponseEntity getParents(@Positive @PathVariable("client-id") Long clientId){
         Parents findParents = parentsService.getParents(clientId);

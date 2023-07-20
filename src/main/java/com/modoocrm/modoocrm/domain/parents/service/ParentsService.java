@@ -8,4 +8,6 @@ public interface ParentsService {
     void registerParents(Parents parents,Long clientId);
 
     Parents getParents(Long clientId);
+
+    void updateParents(Parents parents, Long parentsId);
 }

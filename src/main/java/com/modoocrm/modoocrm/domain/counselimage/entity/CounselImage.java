@@ -41,6 +41,7 @@ public class CounselImage {
     @Column
     private String landscapeImagePath; /// 그림 경로
 
+    @Setter
     @OneToOne
     @JoinColumn(name = "client_id")
     private Client client;
