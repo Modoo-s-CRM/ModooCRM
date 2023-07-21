@@ -12,6 +12,9 @@ public enum ExceptionCode {
     // COUNSELOR
     COUNSELOR_NOT_FOUND(404,"Counselor not found"),
 
+    // NOTICE
+    NOTICE_NOT_FOUND(404, "Notice not found"),
+
     // IMAGE
     IMAGE_UPLOAD_FAILED(500, "Image Upload Failed"),
     IMAGE_NOT_FOUND(404, "Counsel Image Not Found"),

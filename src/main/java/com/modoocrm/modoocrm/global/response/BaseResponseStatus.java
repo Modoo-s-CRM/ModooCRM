@@ -18,8 +18,6 @@ public enum BaseResponseStatus {
 
     // Common : 2000 ~
 
-    // Calender : 2100 ~
-
     // Client : 2200 ~
 
     // CounselDiary : 2300 ~
@@ -30,8 +28,6 @@ public enum BaseResponseStatus {
 
     // Parents : 2600 ~
 
-    // Schedule : 2700 ~
-
     // Statistics : 2800 ~
 
     /**
@@ -39,8 +35,6 @@ public enum BaseResponseStatus {
      */
 
     // Common : 3000 ~
-
-    // Calender : 3100 ~
 
     // Client : 3200 ~
 
