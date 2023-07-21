@@ -1,6 +1,7 @@
 package com.modoocrm.modoocrm.api.notice.controller;
 
 import com.modoocrm.modoocrm.api.notice.dto.NoticeRegisterDto;
+import com.modoocrm.modoocrm.api.notice.dto.NoticeResponseDtos;
 import com.modoocrm.modoocrm.api.notice.mapper.NoticeMapper;
 import com.modoocrm.modoocrm.domain.notice.entity.Notice;
 import com.modoocrm.modoocrm.domain.notice.service.NoticeService;
@@ -15,12 +16,12 @@ import javax.validation.constraints.Positive;
 @Validated
 @RequestMapping("/api/notice")
 @RestController
-public class NoticeContrller {
+public class NoticeController {
 
     private final NoticeMapper noticeMapper;
     private final NoticeService noticeService;
 
-    public NoticeContrller(NoticeMapper noticeMapper, NoticeService noticeService) {
+    public NoticeController(NoticeMapper noticeMapper, NoticeService noticeService) {
         this.noticeMapper = noticeMapper;
         this.noticeService = noticeService;
     }
@@ -39,5 +40,12 @@ public class NoticeContrller {
         Long updateNoticeId = noticeService.updateNotice(updateNotice,noticeId);
         return new ResponseEntity(updateNoticeId,HttpStatus.ACCEPTED);
     }
+
+    @GetMapping
+    public ResponseEntity getNotices(@RequestParam("date") String date){
+        NoticeResponseDtos noticeResponseDtos = noticeService.getNotices(date);
+        return new ResponseEntity(noticeResponseDtos, HttpStatus.OK);
+    }
+
 
 }
