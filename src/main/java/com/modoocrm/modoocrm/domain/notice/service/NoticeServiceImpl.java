@@ -27,6 +27,7 @@ public class NoticeServiceImpl implements NoticeService{
 
     @Override
     public Long registerNotice(Notice registerNotice) {
+        this.checkParameterDate(registerNotice.getNoticeDate());
         Notice saveNotice = noticeRepository.save(registerNotice);
         return saveNotice.getNoticeId();
     }
@@ -50,6 +51,7 @@ public class NoticeServiceImpl implements NoticeService{
 
         //todo 오늘 날짜 기준 이전 날짜가 들어오면 예외 발생
 
+        //todo 리팩토링 필요
         LocalDateTime startDateTime = parameterDate.atStartOfDay();
         LocalDateTime endDateTime = parameterDate.atTime(23,59,59);
 
@@ -87,8 +89,17 @@ public class NoticeServiceImpl implements NoticeService{
         return noticeResponseDtos;
     }
 
+
     private Notice findVerifiedNotice(Long noticeId){
         return noticeRepository.findById(noticeId).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.NOTICE_NOT_FOUND));
+    }
+
+    //오늘 날짜 기준 이전보다
+    private void checkParameterDate(LocalDateTime parameterDate){
+        LocalDateTime today = LocalDateTime.now();
+        if (parameterDate.isBefore(today)){
+            throw new BusinessLogicException(ExceptionCode.INVALID_DATE);
+        }
     }
 }

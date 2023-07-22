@@ -47,5 +47,4 @@ public class NoticeController {
         return new ResponseEntity(noticeResponseDtos, HttpStatus.OK);
     }
 
-
 }

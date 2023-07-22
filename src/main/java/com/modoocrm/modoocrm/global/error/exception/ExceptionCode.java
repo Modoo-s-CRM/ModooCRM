@@ -14,6 +14,7 @@ public enum ExceptionCode {
 
     // NOTICE
     NOTICE_NOT_FOUND(404, "Notice not found"),
+    INVALID_DATE(404,"Previous dates cannot be processed"),
 
     // IMAGE
     IMAGE_UPLOAD_FAILED(500, "Image Upload Failed"),
