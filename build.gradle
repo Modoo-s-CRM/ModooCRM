@@ -52,6 +52,7 @@ dependencies {
 
     //5
     asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+
 }
 
 //6

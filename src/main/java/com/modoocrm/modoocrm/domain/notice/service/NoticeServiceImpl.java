@@ -6,6 +6,7 @@ import com.modoocrm.modoocrm.domain.notice.entity.Notice;
 import com.modoocrm.modoocrm.domain.notice.repository.NoticeRepository;
 import com.modoocrm.modoocrm.global.error.exception.BusinessLogicException;
 import com.modoocrm.modoocrm.global.error.exception.ExceptionCode;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -28,6 +29,11 @@ public class NoticeServiceImpl implements NoticeService{
     @Override
     public Long registerNotice(Notice registerNotice) {
         this.checkParameterDate(registerNotice.getNoticeDate());
+        //등록일 설정
+        registerNotice.setSafeNoticeDate(LocalDate.now());
+        //삭제 예정일 설정
+        registerNotice.setDeleteDate(LocalDate.now().plusDays(3));
+
         Notice saveNotice = noticeRepository.save(registerNotice);
         return saveNotice.getNoticeId();
     }
@@ -93,6 +99,17 @@ public class NoticeServiceImpl implements NoticeService{
     private Notice findVerifiedNotice(Long noticeId){
         return noticeRepository.findById(noticeId).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.NOTICE_NOT_FOUND));
+    }
+
+    //공지 자동 삭제 - 스프링 스케줄링
+    @Scheduled(cron = "0 0 0 * * *")
+    public void deleteExpiredNotices(){
+        LocalDate today = LocalDate.now();
+        // DB에서 삭제 예정일이 지난 공지를 조회
+        List<Notice> expiredNotices = noticeRepository.findByDeleteDateBefore(today);
+
+        //조회된 공지 삭제
+        noticeRepository.deleteAll(expiredNotices);
     }
 
     //오늘 날짜 기준 이전보다

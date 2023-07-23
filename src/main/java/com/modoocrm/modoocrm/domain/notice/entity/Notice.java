@@ -27,6 +27,12 @@ public class Notice {
     @Column
     private String counselSpecial;
 
+    @Setter
+    private LocalDate safeNoticeDate;
+
+    @Setter
+    private LocalDate deleteDate;
+
     @Builder
     public Notice(LocalDateTime noticeDate, String counselSpecial){
         this.noticeDate = noticeDate;
