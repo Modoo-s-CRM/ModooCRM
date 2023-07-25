@@ -1,15 +1,25 @@
 package com.modoocrm.modoocrm.api.statistics.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
-@Getter
+@Getter @Setter
 public class CounselTypeRepDto {
     private List<StatsCounselType> data;
 
-    public class StatsCounselType{
+    @Setter @Getter
+    public static class StatsCounselType{
         private String counselType;
         private double ratio;
+
+        @Builder
+        public StatsCounselType(String counselType, double ratio){
+            this.counselType = counselType;
+            this.ratio = ratio;
+        }
     }
 }

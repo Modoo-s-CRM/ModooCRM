@@ -24,7 +24,7 @@ public class ClientServiceImpl implements ClientService{
         this.clientRepository = clientRepository;
         this.counselorService = counselorService;
     }
-
+    @Override
     public void registerClient(Client client, String counselor) {
         Counselor findCounselor = counselorService.findVerifiedCounselor(counselor);
         findCounselor.addClient(client);
@@ -32,6 +32,7 @@ public class ClientServiceImpl implements ClientService{
         clientRepository.save(client);
     }
 
+    @Override
     public Client updateClient(Client client, Long clientId,String counselor) {
         Counselor findCounselor = counselorService.findVerifiedCounselor(counselor);
         Client findClient = findVerifiedClient(clientId);
@@ -62,6 +63,37 @@ public class ClientServiceImpl implements ClientService{
     @Override
     public int monthFirstCounselCount(LocalDateTime startDate, LocalDateTime endDate){
         return clientRepository.countByFirstCounselBetween(startDate,endDate);
+    }
+
+    //성인,부부,커플,청소년,태교 상담 카운트 수
+    @Override
+    public int adultCount(LocalDateTime startDate, LocalDateTime endDate){
+        return  (int) clientRepository.adultCouselTypeCount(startDate,endDate);
+    }
+
+    @Override
+    public int marriedCoupleCount(LocalDateTime startDate, LocalDateTime endDate) {
+        return (int) clientRepository.marriedCoupleCouselTypeCount(startDate,endDate);
+    }
+
+    @Override
+    public int coupleCount(LocalDateTime startDate, LocalDateTime endDate) {
+        return (int) clientRepository.coupleCouselTypeCount(startDate,endDate);
+    }
+
+    @Override
+    public int familyCount(LocalDateTime startDate, LocalDateTime endDate) {
+        return (int) clientRepository.familyCounselTypeCount(startDate,endDate);
+    }
+
+    @Override
+    public int youthCount(LocalDateTime startDate, LocalDateTime endDate) {
+        return (int) clientRepository.youthCouselTypeCount(startDate,endDate);
+    }
+
+    @Override
+    public int antenatalCount(LocalDateTime startDate, LocalDateTime endDate) {
+        return (int) clientRepository.antenatalCouselTypeCount(startDate,endDate);
     }
 
     //Todo 정보 수정 -> 리팩토링 필요

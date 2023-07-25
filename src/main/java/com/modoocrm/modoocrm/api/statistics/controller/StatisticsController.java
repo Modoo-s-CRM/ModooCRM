@@ -1,6 +1,8 @@
 package com.modoocrm.modoocrm.api.statistics.controller;
 
+import com.modoocrm.modoocrm.api.statistics.dto.CounselTypeRepDto;
 import com.modoocrm.modoocrm.domain.statistics.service.StatisticsService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +27,7 @@ public class StatisticsController {
 
     @GetMapping("/type")
     public ResponseEntity getCounselTypeStats(@RequestParam("month") String month){
-        statisticsService.getCounselTypeStats(month);
-        return null;
+        CounselTypeRepDto counselTypeRepDto = statisticsService.getCounselTypeStats(month);
+         return new ResponseEntity(counselTypeRepDto, HttpStatus.OK);
     }
 }

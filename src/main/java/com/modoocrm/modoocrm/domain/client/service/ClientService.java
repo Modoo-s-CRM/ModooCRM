@@ -20,4 +20,18 @@ public interface ClientService {
     Client setClientIfPresent(Client client, Client findClient);
 
     int monthFirstCounselCount(LocalDateTime startDate, LocalDateTime endDate);
+
+    int adultCount(LocalDateTime startDate, LocalDateTime endDate);
+
+    int marriedCoupleCount(LocalDateTime startDate, LocalDateTime endDate);
+
+    int coupleCount(LocalDateTime startDate, LocalDateTime endDate);
+
+    int familyCount(LocalDateTime startDate, LocalDateTime endDate);
+
+    int youthCount(LocalDateTime startDate, LocalDateTime endDate);
+
+    int antenatalCount(LocalDateTime startDate, LocalDateTime endDate);
+
+
 }
