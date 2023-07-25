@@ -42,6 +42,11 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
+    public Client getClientInfo(Long clientId) {
+        return this.findVerifiedClient(clientId);
+    }
+
+    @Override
     public List<Client> searchClient(String keyword) {
         return clientRepository.findByClientNameContaining(keyword);
     }
@@ -51,6 +56,12 @@ public class ClientServiceImpl implements ClientService{
         Client findClient = clientRepository.findById(client).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.CLIENT_NOT_FOUND));
         return findClient;
+    }
+
+    //x월에 해당하는 모든 내담자 수 가져오기
+    @Override
+    public int monthFirstCounselCount(LocalDateTime startDate, LocalDateTime endDate){
+        return clientRepository.countByFirstCounselBetween(startDate,endDate);
     }
 
     //Todo 정보 수정 -> 리팩토링 필요

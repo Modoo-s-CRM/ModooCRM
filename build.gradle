@@ -1,3 +1,9 @@
+buildscript {
+    dependencies {
+        classpath("gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:1.0.10")
+    }
+}
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.12'
@@ -8,6 +14,9 @@ plugins {
 group = 'com.codestates'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+
+//apply plugin: 'io.spring.dependency-management'
+apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
 configurations {
     asciidoctorExtensions // 3
@@ -53,6 +62,43 @@ dependencies {
     //5
     asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 
+    //querydsl 추가
+    implementation 'com.querydsl:querydsl-jpa'
+    //querydsl 추가
+    implementation 'com.querydsl:querydsl-apt'
+
+}
+
+//querydsl 추가
+//def querydslDir = 'src/main/generated'
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+    library = "com.querydsl:querydsl-apt"
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', querydslDir]
+        }
+    }
+}
+
+compileQuerydsl{
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+
+
+
+tasks.named('test') {
+    useJUnitPlatform()
 }
 
 //6

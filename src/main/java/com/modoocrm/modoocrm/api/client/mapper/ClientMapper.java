@@ -1,8 +1,10 @@
 package com.modoocrm.modoocrm.api.client.mapper;
 
+import com.modoocrm.modoocrm.api.client.dto.ClientInfoResponseDto;
 import com.modoocrm.modoocrm.api.client.dto.ClientRegisterDto;
 import com.modoocrm.modoocrm.api.client.dto.ClientSearchResponseDto;
 import com.modoocrm.modoocrm.domain.client.entity.Client;
+import com.modoocrm.modoocrm.domain.counselimage.entity.CounselImage;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -10,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class ClientMapper {
@@ -58,6 +61,38 @@ public class ClientMapper {
             clientSearchResponseDtos.add(this.clientToClientSearchResponseDto(client));
         }
         return clientSearchResponseDtos;
+    }
+
+    public ClientInfoResponseDto clientToClientInfoResponseDto(Client findclient){
+        Optional<CounselImage> counselImageOptional = Optional.ofNullable(findclient.getCounselImage());
+        return ClientInfoResponseDto.builder()
+                .clientName(findclient.getClientName())
+                .birth(findclient.getBirth())
+                .age(findclient.getAge())
+                .clientGender(findclient.getClientGender())
+                .address(findclient.getAddress())
+                .phone(findclient.getPhone())
+                .hobby(findclient.getHobby())
+                .height(findclient.getHeight())
+                .weight(findclient.getWeight())
+                .educationInfo(findclient.getEducationInfo())
+                .marry(findclient.getMarry())
+                .job(findclient.getJob())
+                .counselType(findclient.getCounselType().getCounselTypeDescription())
+                .counselMethod(findclient.getCounselMethod())
+                .inflowPath(findclient.getInflowPath())
+                .symptom(findclient.getSymptom())
+                .counselHistory(findclient.getCounselHistory())
+                .counselProgress(findclient.getCounselProgress())
+                .firstCounsel(findclient.getFirstCounsel())
+                .specialNote(findclient.getSpecialNote())
+                .counselorName(findclient.getCounselor().getCounselorName())
+                .counselorGender(findclient.getCounselor().getCounselorGender())
+                //todo Null값 허용
+                .applicationFormImagePath(counselImageOptional.map(counselImage -> counselImage.getApplicationFormImagePath()).orElse("내담자의 등록된 상담자료가 없습니다."))
+                .selfAptitudeImagePath(counselImageOptional.map(counselImage1 -> counselImage1.getSelfAptitudeImagePath()).orElse("내담자의 등록된 상담자료가 없습니다."))
+                .landscapeImagePath(counselImageOptional.map(counselImage2 -> counselImage2.getLandscapeImagePath()).orElse("내담자의 등록된 상담자료가 없습니다."))
+                .build();
     }
 
 }

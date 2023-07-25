@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
-@RequestMapping("/api")
+@RequestMapping("/api/client")
 @RestController
 public class ClientController {
 
@@ -24,7 +24,7 @@ public class ClientController {
         this.clientService = clientService;
     }
 
-    @PostMapping("/client")
+    @PostMapping
     public ResponseEntity registerClient(@Valid @RequestBody ClientRegisterDto clientRegisterDto){
         String counselor = clientRegisterDto.getCounselorName();
         Client saveClient = clientMapper.clientRegisterDtoToClient(clientRegisterDto);
@@ -32,7 +32,7 @@ public class ClientController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @PatchMapping("/client/{client-id}")
+    @PatchMapping("/{client-id}")
     public ResponseEntity updateClient(@Valid @RequestBody ClientRegisterDto clientRegisterDto,
                                        @Positive @PathVariable("client-id") Long clientId){
         String counselor = clientRegisterDto.getCounselorName();
@@ -42,8 +42,14 @@ public class ClientController {
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
+    @GetMapping("/info/{client-id}")
+    public ResponseEntity getClientInfo(@Positive @PathVariable("client-id") Long clientId){
+        Client findClient = clientService.getClientInfo(clientId);
+        return new ResponseEntity(clientMapper.clientToClientInfoResponseDto(findClient),HttpStatus.OK);
+    }
+
     //Todo 검색어 자동 완성 -> Advance한 내용..
-    @GetMapping("/client/lookup")
+    @GetMapping("/lookup")
     public ResponseEntity searchClient(@RequestParam("keyword") String keyword){
         List<Client> clients = clientService.searchClient(keyword);
         return new ResponseEntity(clientMapper.clientSearchResponseDtos(clients),HttpStatus.OK);

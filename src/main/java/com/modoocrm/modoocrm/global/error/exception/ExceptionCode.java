@@ -3,8 +3,9 @@ package com.modoocrm.modoocrm.global.error.exception;
 import lombok.Getter;
 
 public enum ExceptionCode {
-    // MEMBER
+    // CLIENT
     CLIENT_NOT_FOUND(404, "Client not found"),
+    INVALID_COUNSEL_TYPE(404,"Invalid Counsel Type"),
 
     // PARENTS
     PARENTS_NOT_FOUND(404, "Parents not found"),

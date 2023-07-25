@@ -5,11 +5,14 @@ import com.modoocrm.modoocrm.domain.counseldiary.entity.CounselDiary;
 import com.modoocrm.modoocrm.domain.counselimage.entity.CounselImage;
 import com.modoocrm.modoocrm.domain.counselor.entity.Counselor;
 import com.modoocrm.modoocrm.domain.parents.entity.Parents;
+import com.modoocrm.modoocrm.global.error.exception.BusinessLogicException;
+import com.modoocrm.modoocrm.global.error.exception.ExceptionCode;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "client")
@@ -71,8 +74,8 @@ public class Client extends BaseModel {
     private String job;
 
     @Setter
-    @Column(nullable = false, length = 20)
-    private String counselType;
+    @Enumerated(EnumType.STRING)
+    private CounselType counselType;
 
     @Setter
     @Column(nullable = false, length = 20)
@@ -106,9 +109,8 @@ public class Client extends BaseModel {
     @OneToOne(mappedBy = "client")
     private CounselImage counselImage;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "counsel_diary_id")
-    private CounselDiary counselDiary;
+    @OneToMany(mappedBy = "client")
+    private List<CounselDiary> counselDiary;
 
     @OneToOne(mappedBy = "client")
     private Parents parents;
@@ -117,6 +119,39 @@ public class Client extends BaseModel {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "counselor_id")
     private Counselor counselor;
+
+    public void addCouselorDiary(CounselDiary counselDiary){
+        this.counselDiary.add(counselDiary);
+        if (counselDiary.getClient() != this){
+            counselDiary.setClient(this);
+        }
+    }
+
+    public enum CounselType{
+        ADULT("성인"),
+        MARRIED_COUPLE("부부"),
+        COUPLE("커플"),
+        FAMILY("가족"),
+        YOUTH("아동청소년"),
+        ANTENATAL("태교");
+
+        @Getter
+        private String counselTypeDescription;
+
+        CounselType(String counselTypeDescription){
+            this.counselTypeDescription = counselTypeDescription;
+        }
+
+        public static CounselType findByDescription(String description){
+            for (CounselType counselType : values() ){
+                if (counselType.getCounselTypeDescription().equals(description)){
+                    return counselType;
+                }
+            }
+            throw new BusinessLogicException(ExceptionCode.INVALID_COUNSEL_TYPE);
+        }
+
+    }
 
     @Builder
     public Client(String clientName, LocalDate birth, int age, String clientGender, String address, String phone,
@@ -135,7 +170,7 @@ public class Client extends BaseModel {
         this.educationInfo = educationInfo;
         this.marry = marry;
         this.job = job;
-        this.counselType = counselType;
+        this.counselType = CounselType.findByDescription(counselType);
         this.counselMethod = counselMethod;
         this.inflowPath = inflowPath;
         this.symptom = symptom;

@@ -2,6 +2,7 @@ package com.modoocrm.modoocrm.domain.client.service;
 
 import com.modoocrm.modoocrm.domain.client.entity.Client;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ClientService {
@@ -12,7 +13,11 @@ public interface ClientService {
 
     List<Client> searchClient(String keyword);
 
+    Client getClientInfo(Long clientId);
+
     Client findVerifiedClient(Long client);
 
     Client setClientIfPresent(Client client, Client findClient);
+
+    int monthFirstCounselCount(LocalDateTime startDate, LocalDateTime endDate);
 }

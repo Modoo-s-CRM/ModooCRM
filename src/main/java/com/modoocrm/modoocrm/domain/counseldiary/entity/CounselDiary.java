@@ -1,13 +1,10 @@
 package com.modoocrm.modoocrm.domain.counseldiary.entity;
 
 import com.modoocrm.modoocrm.domain.client.entity.Client;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @ToString
@@ -22,10 +19,10 @@ public class CounselDiary {
     private Long diaryId;
 
     @Column(nullable = false)
-    private Date counselDate;
+    private int counselCount;
 
-    @Column(nullable = false, length = 30)
-    private String counselTime;
+    @Column(nullable = false)
+    private LocalDateTime counselDate; //당일 상담 날짜
 
     @Column(nullable = false)
     private String clientCondition;
@@ -37,17 +34,15 @@ public class CounselDiary {
     private String counselResult;
 
     @Column
-    private Date nextDate;
-
-    @Column(length = 30)
-    private String nextTime;
+    private LocalDateTime nextCounselDate;
 
     @Column
-    private String nextCounsel;
+    private String nextCounselPlan;
 
     @Column
-    private String specialNote;
+    private String note; //비고
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     private Client client;
