@@ -26,6 +26,7 @@ public class ClientServiceImpl implements ClientService{
     }
     @Override
     public void registerClient(Client client, String counselor) {
+        //todo firstCOunsel 오늘 날짜보다 이전 날짜이면 예외처리 필요
         Counselor findCounselor = counselorService.findVerifiedCounselor(counselor);
         findCounselor.addClient(client);
         client.setCounselor(findCounselor);
@@ -94,6 +95,11 @@ public class ClientServiceImpl implements ClientService{
     @Override
     public int antenatalCount(LocalDateTime startDate, LocalDateTime endDate) {
         return (int) clientRepository.antenatalCouselTypeCount(startDate,endDate);
+    }
+
+    @Override
+    public List<Client> clientsInYear(LocalDateTime startDate, LocalDateTime endDate){
+        return clientRepository.clientsInYear(startDate,endDate);
     }
 
     //Todo 정보 수정 -> 리팩토링 필요

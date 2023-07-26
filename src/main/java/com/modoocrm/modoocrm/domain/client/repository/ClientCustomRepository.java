@@ -1,6 +1,9 @@
 package com.modoocrm.modoocrm.domain.client.repository;
 
+import com.modoocrm.modoocrm.domain.client.entity.Client;
+
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface ClientCustomRepository {
 
@@ -13,4 +16,5 @@ public interface ClientCustomRepository {
     long  youthCouselTypeCount(LocalDateTime startDate, LocalDateTime endDate);
     long  antenatalCouselTypeCount(LocalDateTime startDate, LocalDateTime endDate);
 
+    List<Client> clientsInYear(LocalDateTime startDate, LocalDateTime endDate);
 }

@@ -1,6 +1,7 @@
 package com.modoocrm.modoocrm.domain.statistics.service;
 
 import com.modoocrm.modoocrm.api.statistics.dto.CounselTypeRepDto;
+import com.modoocrm.modoocrm.api.statistics.dto.FirstCounselRepDto;
 import com.modoocrm.modoocrm.api.statistics.dto.SymptomRepDto;
 import com.modoocrm.modoocrm.domain.client.entity.Client;
 import com.modoocrm.modoocrm.domain.client.service.ClientService;
@@ -8,8 +9,11 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -123,14 +127,40 @@ public class StatisticsServiceImpl implements StatisticsService{
         return counselTypeRepDto;
     }
 
-    private CounselTypeRepDto.StatsCounselType createStatsCounselType(String counselTypeDescription, double ratio){
-        return CounselTypeRepDto.StatsCounselType.builder()
-                .counselType(counselTypeDescription)
-                .ratio(ratio)
-                .build();
+    @Override
+    public FirstCounselRepDto getFirstCounselStats(String year) {
+        int yearValue = Integer.parseInt(year.replaceAll("[^0-9]",""));
+        LocalDateTime startOfMonth = LocalDateTime.of(yearValue, Month.JANUARY,1,0,0);
+        LocalDateTime endOfMonth = LocalDateTime.of(yearValue, Month.DECEMBER, 31, 0, 0);
+        //연도와 맞는 모든 내담자의 데이터들을 가지고 온다.
+        List<Client> clientsInYear = clientService.clientsInYear(startOfMonth, endOfMonth);
+        //가지고 온 데이터를 월별로 그룹핑
+        List<FirstCounselRepDto.FirstCounselStats> firstCounselStateList = clientsInYear.stream()
+                .collect(Collectors.groupingBy(
+                        client -> client.getFirstCounsel().getMonth(),
+                        Collectors.counting()
+                ))
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .map(entry -> {
+                    String monthName = Month.of(entry.getKey().getValue()).name();
+                    FirstCounselRepDto.FirstCounselStats firstCounselStats = FirstCounselRepDto.FirstCounselStats.builder()
+                            .month(monthName)
+                            .visit(Math.toIntExact(entry.getValue()))
+                            .build();
+                    return firstCounselStats;
+                }
+                )
+                .collect(Collectors.toList());
+
+        FirstCounselRepDto firstCounselRepDto = new FirstCounselRepDto();
+        firstCounselRepDto.setData(firstCounselStateList);
+
+        return firstCounselRepDto;
     }
 
-    private double percentage(int anyCount,int monthClientCount){
+    private double percentage(int anyCount, int monthClientCount){
         double ratio = (double)anyCount / monthClientCount * 100;
         return (int) Math.round(ratio);
     }

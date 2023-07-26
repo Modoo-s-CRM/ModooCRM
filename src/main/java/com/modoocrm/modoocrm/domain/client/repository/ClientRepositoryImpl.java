@@ -6,6 +6,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public class ClientRepositoryImpl implements ClientCustomRepository{
@@ -88,5 +89,14 @@ public class ClientRepositoryImpl implements ClientCustomRepository{
                         client.counselType.eq(Client.CounselType.ANTENATAL)
                 )
                 .fetchCount();
+    }
+
+    @Override
+    public List<Client> clientsInYear(LocalDateTime startDate, LocalDateTime endDate) {
+        QClient client = QClient.client;
+        return queryFactory
+                .selectFrom(client)
+                .where(client.firstCounsel.between(startDate,endDate))
+                .fetch();
     }
 }
