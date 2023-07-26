@@ -99,4 +99,15 @@ public class ClientRepositoryImpl implements ClientCustomRepository{
                 .where(client.firstCounsel.between(startDate,endDate))
                 .fetch();
     }
+
+    @Override
+    public List<Client> clientsInYearAndCure(LocalDateTime startDate, LocalDateTime endDate) {
+        QClient client = QClient.client;
+        return queryFactory.selectFrom(client)
+                .where(
+                        client.firstCounsel.between(startDate,endDate),
+                        client.isCure.eq(true)
+                )
+                .fetch();
+    }
 }

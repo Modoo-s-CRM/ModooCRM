@@ -17,4 +17,6 @@ public interface ClientCustomRepository {
     long  antenatalCouselTypeCount(LocalDateTime startDate, LocalDateTime endDate);
 
     List<Client> clientsInYear(LocalDateTime startDate, LocalDateTime endDate);
+
+    List<Client> clientsInYearAndCure(LocalDateTime startDate, LocalDateTime endDate);
 }

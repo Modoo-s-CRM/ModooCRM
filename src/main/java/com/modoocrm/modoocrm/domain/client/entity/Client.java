@@ -105,6 +105,10 @@ public class Client extends BaseModel {
     @Column
     private String specialNote;
 
+    //치료상담여부
+    @Setter
+    private Boolean isCure = false;
+
     @Setter
     @OneToOne(mappedBy = "client")
     private CounselImage counselImage;

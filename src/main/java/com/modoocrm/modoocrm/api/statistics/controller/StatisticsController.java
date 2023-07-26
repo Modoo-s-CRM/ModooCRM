@@ -1,6 +1,7 @@
 package com.modoocrm.modoocrm.api.statistics.controller;
 
 import com.modoocrm.modoocrm.api.statistics.dto.CounselTypeRepDto;
+import com.modoocrm.modoocrm.api.statistics.dto.CureRepDto;
 import com.modoocrm.modoocrm.api.statistics.dto.FirstCounselRepDto;
 import com.modoocrm.modoocrm.domain.statistics.service.StatisticsService;
 import org.springframework.http.HttpStatus;
@@ -39,5 +40,12 @@ public class StatisticsController {
     public ResponseEntity getFirstCounselStats(@RequestParam("year") String year){
         FirstCounselRepDto firstCounselRepDto = statisticsService.getFirstCounselStats(year);
         return new ResponseEntity(firstCounselRepDto, HttpStatus.OK);
+    }
+
+    //초진에서 치료율
+    @GetMapping("/cure")
+    public ResponseEntity getCureStats(@RequestParam("year") String year){
+        CureRepDto cureRepDto = statisticsService.getCureStats(year);
+        return new ResponseEntity(cureRepDto, HttpStatus.OK);
     }
 }

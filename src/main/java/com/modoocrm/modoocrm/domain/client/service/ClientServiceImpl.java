@@ -34,10 +34,13 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public Client updateClient(Client client, Long clientId,String counselor) {
+    public Client updateClient(Client client, Long clientId, String counselor) {
         Counselor findCounselor = counselorService.findVerifiedCounselor(counselor);
         Client findClient = findVerifiedClient(clientId);
         Client updateClient = this.setClientIfPresent(client, findClient);
+        if (updateClient.getCounselProgress().equals("치료 상담")){
+            updateClient.setIsCure(true);
+        }
         updateClient.setCounselor(findCounselor);
         updateClient.setUpdateTime(LocalDateTime.now());
         return clientRepository.save(updateClient);
@@ -100,6 +103,11 @@ public class ClientServiceImpl implements ClientService{
     @Override
     public List<Client> clientsInYear(LocalDateTime startDate, LocalDateTime endDate){
         return clientRepository.clientsInYear(startDate,endDate);
+    }
+
+    @Override
+    public List<Client> clientsInYearAndCure(LocalDateTime startDate, LocalDateTime endDate) {
+        return clientRepository.clientsInYearAndCure(startDate,endDate);
     }
 
     //Todo 정보 수정 -> 리팩토링 필요
