@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Transactional
 @Service
-public class ClientServiceImpl implements ClientService{
+public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
     private final CounselorService counselorService;
@@ -24,6 +24,7 @@ public class ClientServiceImpl implements ClientService{
         this.clientRepository = clientRepository;
         this.counselorService = counselorService;
     }
+
     @Override
     public void registerClient(Client client, String counselor) {
         //todo firstCOunsel 오늘 날짜보다 이전 날짜이면 예외처리 필요
@@ -38,12 +39,19 @@ public class ClientServiceImpl implements ClientService{
         Counselor findCounselor = counselorService.findVerifiedCounselor(counselor);
         Client findClient = findVerifiedClient(clientId);
         Client updateClient = this.setClientIfPresent(client, findClient);
-        if (updateClient.getCounselProgress().equals("치료 상담")){
+        if (updateClient.getCounselProgress().equals("치료 상담")) {
             updateClient.setIsCure(true);
         }
         updateClient.setCounselor(findCounselor);
         updateClient.setUpdateTime(LocalDateTime.now());
         return clientRepository.save(updateClient);
+    }
+
+    @Override
+    public List<Client> searchFIlterClient(String counselType, String counselorName, String ageGroup,
+                                           String clientGender, String counselProgress, String startDate, String endDate) {
+        Client.CounselType transferCounselType = this.transferCounselType(counselType);
+        return clientRepository.searchFilterClient(transferCounselType, counselorName, ageGroup, clientGender, counselProgress, startDate, endDate);
     }
 
     @Override
@@ -65,49 +73,72 @@ public class ClientServiceImpl implements ClientService{
 
     //x월에 해당하는 모든 내담자 수 가져오기
     @Override
-    public int monthFirstCounselCount(LocalDateTime startDate, LocalDateTime endDate){
-        return clientRepository.countByFirstCounselBetween(startDate,endDate);
+    public int monthFirstCounselCount(LocalDateTime startDate, LocalDateTime endDate) {
+        return clientRepository.countByFirstCounselBetween(startDate, endDate);
     }
 
     //성인,부부,커플,청소년,태교 상담 카운트 수
     @Override
-    public int adultCount(LocalDateTime startDate, LocalDateTime endDate){
-        return  (int) clientRepository.adultCouselTypeCount(startDate,endDate);
+    public int adultCount(LocalDateTime startDate, LocalDateTime endDate) {
+        return (int) clientRepository.adultCouselTypeCount(startDate, endDate);
     }
 
     @Override
     public int marriedCoupleCount(LocalDateTime startDate, LocalDateTime endDate) {
-        return (int) clientRepository.marriedCoupleCouselTypeCount(startDate,endDate);
+        return (int) clientRepository.marriedCoupleCouselTypeCount(startDate, endDate);
     }
 
     @Override
     public int coupleCount(LocalDateTime startDate, LocalDateTime endDate) {
-        return (int) clientRepository.coupleCouselTypeCount(startDate,endDate);
+        return (int) clientRepository.coupleCouselTypeCount(startDate, endDate);
     }
 
     @Override
     public int familyCount(LocalDateTime startDate, LocalDateTime endDate) {
-        return (int) clientRepository.familyCounselTypeCount(startDate,endDate);
+        return (int) clientRepository.familyCounselTypeCount(startDate, endDate);
     }
 
     @Override
     public int youthCount(LocalDateTime startDate, LocalDateTime endDate) {
-        return (int) clientRepository.youthCouselTypeCount(startDate,endDate);
+        return (int) clientRepository.youthCouselTypeCount(startDate, endDate);
     }
 
     @Override
     public int antenatalCount(LocalDateTime startDate, LocalDateTime endDate) {
-        return (int) clientRepository.antenatalCouselTypeCount(startDate,endDate);
+        return (int) clientRepository.antenatalCouselTypeCount(startDate, endDate);
     }
 
     @Override
-    public List<Client> clientsInYear(LocalDateTime startDate, LocalDateTime endDate){
-        return clientRepository.clientsInYear(startDate,endDate);
+    public List<Client> clientsInYear(LocalDateTime startDate, LocalDateTime endDate) {
+        return clientRepository.clientsInYear(startDate, endDate);
     }
 
     @Override
     public List<Client> clientsInYearAndCure(LocalDateTime startDate, LocalDateTime endDate) {
-        return clientRepository.clientsInYearAndCure(startDate,endDate);
+        return clientRepository.clientsInYearAndCure(startDate, endDate);
+    }
+
+    private Client.CounselType transferCounselType(String counselType) {
+        if (counselType == null){
+            return null;
+        }
+        switch (counselType) {
+            case "성인":
+                return Client.CounselType.ADULT;
+            case "부부":
+                return Client.CounselType.MARRIED_COUPLE;
+            case "커플":
+                return Client.CounselType.COUPLE;
+            case "가족":
+                return Client.CounselType.FAMILY;
+            case "아동청소년":
+                return Client.CounselType.YOUTH;
+            case "태교":
+                return Client.CounselType.ANTENATAL;
+            default:
+                throw new BusinessLogicException(ExceptionCode.MUST_COUNSEL_TYPE);
+        }
+
     }
 
     //Todo 정보 수정 -> 리팩토링 필요

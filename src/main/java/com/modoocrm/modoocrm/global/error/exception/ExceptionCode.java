@@ -17,6 +17,9 @@ public enum ExceptionCode {
     NOTICE_NOT_FOUND(404, "Notice not found"),
     INVALID_DATE(404,"Previous dates cannot be processed"),
 
+    //SEARCH_FILTER
+    MUST_COUNSEL_TYPE(404,"Counsel Type is Required"),
+
     // IMAGE
     IMAGE_UPLOAD_FAILED(500, "Image Upload Failed"),
     IMAGE_NOT_FOUND(404, "Counsel Image Not Found"),

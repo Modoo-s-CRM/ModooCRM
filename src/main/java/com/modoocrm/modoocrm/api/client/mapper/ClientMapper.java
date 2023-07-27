@@ -2,6 +2,7 @@ package com.modoocrm.modoocrm.api.client.mapper;
 
 import com.modoocrm.modoocrm.api.client.dto.ClientInfoResponseDto;
 import com.modoocrm.modoocrm.api.client.dto.ClientRegisterDto;
+import com.modoocrm.modoocrm.api.client.dto.ClientSearchFilterRepDto;
 import com.modoocrm.modoocrm.api.client.dto.ClientSearchResponseDto;
 import com.modoocrm.modoocrm.domain.client.entity.Client;
 import com.modoocrm.modoocrm.domain.counselimage.entity.CounselImage;
@@ -93,6 +94,34 @@ public class ClientMapper {
                 .selfAptitudeImagePath(counselImageOptional.map(counselImage1 -> counselImage1.getSelfAptitudeImagePath()).orElse("내담자의 등록된 상담자료가 없습니다."))
                 .landscapeImagePath(counselImageOptional.map(counselImage2 -> counselImage2.getLandscapeImagePath()).orElse("내담자의 등록된 상담자료가 없습니다."))
                 .build();
+    }
+
+    public ClientSearchFilterRepDto.ClientSearchFilterInfo clientToSearchFilterInfo(Client client){
+        ClientSearchFilterRepDto.ClientSearchFilterInfo clientSearchFilterRepDto = ClientSearchFilterRepDto.ClientSearchFilterInfo.builder()
+                .clientId(client.getClientId())
+                .clientName(client.getClientName())
+                .clientGender(client.getClientGender())
+                .age(client.getAge())
+                .counselorName(client.getCounselor().getCounselorName())
+                .phone(client.getPhone())
+                .marry(client.getMarry())
+                .job(client.getJob())
+                .counselType(client.getCounselType().getCounselTypeDescription())
+                .counselProgress(client.getCounselProgress())
+                .createTime(client.getCreateTime())
+                .build();
+        return clientSearchFilterRepDto;
+    }
+
+    public ClientSearchFilterRepDto clientToClientSearchFilterRepDto(List<Client> clients){
+        ClientSearchFilterRepDto clientSearchFilterRepDto = new ClientSearchFilterRepDto();
+
+        List<ClientSearchFilterRepDto.ClientSearchFilterInfo> clientSearchFilterInfos = new ArrayList<>(clients.size());
+        for (Client client : clients){
+            clientSearchFilterInfos.add(this.clientToSearchFilterInfo(client));
+        }
+        clientSearchFilterRepDto.setData(clientSearchFilterInfos);
+        return clientSearchFilterRepDto;
     }
 
 }

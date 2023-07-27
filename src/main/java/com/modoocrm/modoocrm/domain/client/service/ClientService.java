@@ -15,6 +15,9 @@ public interface ClientService {
 
     Client getClientInfo(Long clientId);
 
+    List<Client> searchFIlterClient(String counselType, String counselorName, String ageGroup,
+                                    String clientGender, String counselProgress, String startDate, String endDate);
+
     Client findVerifiedClient(Long client);
 
     Client setClientIfPresent(Client client, Client findClient);
@@ -36,4 +39,5 @@ public interface ClientService {
     List<Client> clientsInYear(LocalDateTime startDate, LocalDateTime endDate);
 
     List<Client> clientsInYearAndCure(LocalDateTime startDate, LocalDateTime endDate);
+
 }

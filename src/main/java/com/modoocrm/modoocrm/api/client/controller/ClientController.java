@@ -54,4 +54,18 @@ public class ClientController {
         List<Client> clients = clientService.searchClient(keyword);
         return new ResponseEntity(clientMapper.clientSearchResponseDtos(clients),HttpStatus.OK);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity searchFilterClient(
+            @RequestParam(required = false, name = "counselType") String counselType,
+            @RequestParam(required = false, name = "counselorName") String counselorName,
+            @RequestParam(required = false, name = "age") String ageGroup,
+            @RequestParam(required = false, name = "clientGender") String clientGender,
+            @RequestParam(required = false, name = "counselProgress") String counselProgress,
+            @RequestParam(required = false, name = "startDate") String startDate,
+            @RequestParam(required = false, name = "endDate") String endDate
+            ){
+        List<Client> clients = clientService.searchFIlterClient(counselType, counselorName, ageGroup, clientGender, counselProgress, startDate, endDate);
+        return new ResponseEntity(clientMapper.clientToClientSearchFilterRepDto(clients),HttpStatus.OK);
+    }
 }

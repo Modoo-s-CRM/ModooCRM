@@ -19,4 +19,7 @@ public interface ClientCustomRepository {
     List<Client> clientsInYear(LocalDateTime startDate, LocalDateTime endDate);
 
     List<Client> clientsInYearAndCure(LocalDateTime startDate, LocalDateTime endDate);
+
+    List<Client> searchFilterClient(Client.CounselType transferCounselType, String counselorName, String ageGroup,
+                                    String clientGender, String counselProgress, String startDate, String endDate);
 }
