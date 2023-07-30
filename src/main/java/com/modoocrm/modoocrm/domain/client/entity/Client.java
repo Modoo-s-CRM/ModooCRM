@@ -103,6 +103,10 @@ public class Client extends BaseModel {
 
     @Setter
     @Column
+    private LocalDate endCounsel;
+
+    @Setter
+    @Column
     private String specialNote;
 
     //치료상담여부
