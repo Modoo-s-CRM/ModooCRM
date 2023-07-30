@@ -123,18 +123,20 @@ public class ClientServiceImpl implements ClientService {
             return null;
         }
         switch (counselType) {
-            case "성인":
+            case "성인 상담":
                 return Client.CounselType.ADULT;
-            case "부부":
+            case "부부 상담":
                 return Client.CounselType.MARRIED_COUPLE;
-            case "커플":
+            case "커플 상담":
                 return Client.CounselType.COUPLE;
-            case "가족":
+            case "가족 상담":
                 return Client.CounselType.FAMILY;
-            case "아동청소년":
+            case "아동청소년 상담":
                 return Client.CounselType.YOUTH;
-            case "태교":
+            case "태교 상담":
                 return Client.CounselType.ANTENATAL;
+            case "그룹 상담":
+                return Client.CounselType.GROUP;
             default:
                 throw new BusinessLogicException(ExceptionCode.MUST_COUNSEL_TYPE);
         }

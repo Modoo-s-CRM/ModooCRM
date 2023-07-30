@@ -134,12 +134,13 @@ public class Client extends BaseModel {
     }
 
     public enum CounselType{
-        ADULT("성인"),
-        MARRIED_COUPLE("부부"),
-        COUPLE("커플"),
-        FAMILY("가족"),
-        YOUTH("아동청소년"),
-        ANTENATAL("태교");
+        ADULT("성인 상담"),
+        MARRIED_COUPLE("부부 상담"),
+        COUPLE("커플 상담"),
+        FAMILY("가족 상담"),
+        YOUTH("아동청소년 상담"),
+        ANTENATAL("태교 상담"),
+        GROUP("그룹 상담");
 
         @Getter
         private String counselTypeDescription;
