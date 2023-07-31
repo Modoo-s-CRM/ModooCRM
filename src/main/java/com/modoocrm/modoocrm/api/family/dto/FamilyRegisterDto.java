@@ -14,5 +14,7 @@ public class FamilyRegisterDto {
 
     private List<String> children;
 
+    private String houseHolder;
+
     private String familySpecialNote;
 }

@@ -6,11 +6,16 @@ import com.modoocrm.modoocrm.domain.client.repository.ClientRepository;
 import com.modoocrm.modoocrm.domain.client.service.ClientService;
 import com.modoocrm.modoocrm.domain.family.entity.Family;
 import com.modoocrm.modoocrm.domain.family.repository.FamilyRepository;
+import com.modoocrm.modoocrm.global.error.exception.BusinessLogicException;
+import com.modoocrm.modoocrm.global.error.exception.ExceptionCode;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+@Transactional
 @Service
 public class FamilyServiceImpl implements FamilyService{
 
@@ -30,10 +35,12 @@ public class FamilyServiceImpl implements FamilyService{
         List<Client> clients = new ArrayList<>();
 
         String father = familyRegisterDto.getFatherName();
-        clients.add(clientService.findClientName(father));
+        Client fatherClient = clientService.findClientName(father);
+        clients.add(fatherClient);
 
         String mother = familyRegisterDto.getMotherName();
-        clients.add(clientService.findClientName(mother));
+        Client motherClient = clientService.findClientName(mother);
+        clients.add(motherClient);
 
         List<String> childrens = familyRegisterDto.getChildren();
         for (int i = 0; i < childrens.size(); i++){
@@ -42,6 +49,7 @@ public class FamilyServiceImpl implements FamilyService{
         }
 
         Family family = Family.builder()
+                .houseHolder(familyRegisterDto.getHouseHolder())
                 .familySpecialNote(familyRegisterDto.getFamilySpecialNote())
                 .clients(clients)
                 .build();
@@ -53,5 +61,18 @@ public class FamilyServiceImpl implements FamilyService{
             clientRepository.save(client);
         }
 
+    }
+
+    @Override
+    public void deleteFamily(Long familyId) {
+        Family findFamily = this.findVerifiedFamily(familyId);
+        findFamily.removeClients();
+        familyRepository.delete(findFamily);
+    }
+
+    private Family findVerifiedFamily(Long familyId){
+        return familyRepository.findById(familyId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.FAMILY_NOT_FOUND)
+        );
     }
 }
