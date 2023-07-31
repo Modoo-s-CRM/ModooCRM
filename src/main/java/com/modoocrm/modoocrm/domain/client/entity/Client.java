@@ -4,6 +4,7 @@ import com.modoocrm.modoocrm.domain.base.BaseModel;
 import com.modoocrm.modoocrm.domain.counseldiary.entity.CounselDiary;
 import com.modoocrm.modoocrm.domain.counselimage.entity.CounselImage;
 import com.modoocrm.modoocrm.domain.counselor.entity.Counselor;
+import com.modoocrm.modoocrm.domain.family.entity.Family;
 import com.modoocrm.modoocrm.domain.job.entity.Job;
 import com.modoocrm.modoocrm.domain.parents.entity.Parents;
 import com.modoocrm.modoocrm.global.error.exception.BusinessLogicException;
@@ -128,6 +129,11 @@ public class Client extends BaseModel {
 
     @OneToOne(mappedBy = "client")
     private Parents parents;
+
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "family_id")
+    private Family family;
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)

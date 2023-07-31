@@ -36,11 +36,4 @@ public class Counselor {
         this.counselorGender = counselorGender;
     }
 
-    public void addClient(Client client){
-        this.clients.add(client);
-        if (client.getCounselor() != this){
-            client.setCounselor(this);
-        }
-    }
-
 }

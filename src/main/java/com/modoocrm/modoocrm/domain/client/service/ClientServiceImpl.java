@@ -34,7 +34,6 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void registerClient(Client client, String counselor, String job) {
         Counselor findCounselor = counselorService.findVerifiedCounselor(counselor);
-        findCounselor.addClient(client);
         client.setCounselor(findCounselor);
         Job findJob = jobService.findJob(job);
         client.setJob(findJob);
@@ -127,6 +126,13 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public List<Client> clientsInYearAndCure(LocalDateTime startDate, LocalDateTime endDate) {
         return clientRepository.clientsInYearAndCure(startDate, endDate);
+    }
+
+    @Override
+    public Client findClientName(String name) {
+        return clientRepository.findByClientName(name).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.CLIENT_NOT_FOUND)
+        );
     }
 
     private Client.CounselType transferCounselType(String counselType) {

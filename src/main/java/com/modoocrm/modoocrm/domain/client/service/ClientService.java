@@ -40,4 +40,6 @@ public interface ClientService {
 
     List<Client> clientsInYearAndCure(LocalDateTime startDate, LocalDateTime endDate);
 
+    Client findClientName(String name);
+
 }

@@ -14,5 +14,7 @@ public interface ClientRepository extends JpaRepository<Client,Long>, ClientCust
 
     int countByFirstCounselBetween(LocalDateTime startDate, LocalDateTime endDate);
 
+    Optional<Client> findByClientName(String name);
+
 
 }

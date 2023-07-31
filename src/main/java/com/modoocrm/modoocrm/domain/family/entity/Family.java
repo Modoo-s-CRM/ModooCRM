@@ -1,35 +1,33 @@
-package com.modoocrm.modoocrm.domain.job.entity;
+package com.modoocrm.modoocrm.domain.family.entity;
 
 import com.modoocrm.modoocrm.domain.client.entity.Client;
 import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table(name = "JOBS")
-@Getter
+
+@Table(name = "family")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Job {
+public class Family {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long jobId;
+    private Long familyId;
 
-    @Column(nullable = false)
-    private String jobGroup;
+    @Column
+    private String familySpecialNote;
 
-    @OneToMany(mappedBy = "job")
+    @OneToMany(mappedBy = "family")
     private List<Client> clients = new ArrayList<>();
 
     @Builder
-    public Job(String jobGroup){
-        this.jobGroup = jobGroup;
+    public Family(String familySpecialNote, List<Client> clients){
+        this.familySpecialNote = familySpecialNote;
+        this.clients = clients;
     }
-
-
 }
