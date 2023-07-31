@@ -113,8 +113,6 @@ public class Client extends BaseModel {
     @Setter
     private Boolean isCure = false;
 
-    //todo 상담 종료 일자도 필요
-
     @Setter
     @OneToOne(mappedBy = "client")
     private CounselImage counselImage;

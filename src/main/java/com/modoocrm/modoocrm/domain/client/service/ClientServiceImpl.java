@@ -9,6 +9,7 @@ import com.modoocrm.modoocrm.global.error.exception.ExceptionCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +28,6 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void registerClient(Client client, String counselor) {
-        //todo firstCOunsel 오늘 날짜보다 이전 날짜이면 예외처리 필요
         Counselor findCounselor = counselorService.findVerifiedCounselor(counselor);
         findCounselor.addClient(client);
         client.setCounselor(findCounselor);
@@ -41,6 +41,9 @@ public class ClientServiceImpl implements ClientService {
         Client updateClient = this.setClientIfPresent(client, findClient);
         if (updateClient.getCounselProgress().equals("치료 상담")) {
             updateClient.setIsCure(true);
+        }
+        if (updateClient.getCounselProgress().equals("초진 상담 종결") || updateClient.getCounselProgress().equals("치료 상담 종결")){
+            updateClient.setEndCounsel(LocalDate.now());
         }
         updateClient.setCounselor(findCounselor);
         updateClient.setUpdateTime(LocalDateTime.now());
