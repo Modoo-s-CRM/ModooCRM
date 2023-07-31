@@ -4,6 +4,7 @@ import com.modoocrm.modoocrm.domain.base.BaseModel;
 import com.modoocrm.modoocrm.domain.counseldiary.entity.CounselDiary;
 import com.modoocrm.modoocrm.domain.counselimage.entity.CounselImage;
 import com.modoocrm.modoocrm.domain.counselor.entity.Counselor;
+import com.modoocrm.modoocrm.domain.job.entity.Job;
 import com.modoocrm.modoocrm.domain.parents.entity.Parents;
 import com.modoocrm.modoocrm.global.error.exception.BusinessLogicException;
 import com.modoocrm.modoocrm.global.error.exception.ExceptionCode;
@@ -69,9 +70,9 @@ public class Client extends BaseModel {
     @Column(nullable = false, length = 10)
     private String marry;
 
-    @Setter
-    @Column(nullable = false, length = 20)
-    private String job;
+//    @Setter
+//    @Column(nullable = false, length = 20)
+//    private String job;
 
     @Setter
     @Enumerated(EnumType.STRING)
@@ -112,6 +113,11 @@ public class Client extends BaseModel {
     //치료상담여부
     @Setter
     private Boolean isCure = false;
+
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "job_id")
+    private Job job;
 
     @Setter
     @OneToOne(mappedBy = "client")
@@ -164,7 +170,7 @@ public class Client extends BaseModel {
 
     @Builder
     public Client(String clientName, LocalDate birth, int age, String clientGender, String address, String phone,
-                  String hobby, String height, String weight, String educationInfo, String marry, String job,
+                  String hobby, String height, String weight, String educationInfo, String marry,
                   String counselType, String counselMethod, String inflowPath, String symptom, String counselHistory,
                   String counselProgress, LocalDateTime firstCounsel, String specialNote){
         this.clientName = clientName;
@@ -178,7 +184,6 @@ public class Client extends BaseModel {
         this.weight = weight;
         this.educationInfo = educationInfo;
         this.marry = marry;
-        this.job = job;
         this.counselType = CounselType.findByDescription(counselType);
         this.counselMethod = counselMethod;
         this.inflowPath = inflowPath;

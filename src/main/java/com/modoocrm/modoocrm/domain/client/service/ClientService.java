@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface ClientService {
 
-    void registerClient(Client client, String counselor);
+    void registerClient(Client client, String counselor, String job);
 
-    Client updateClient(Client client, Long clientId,String counselor);
+    void updateClient(Client client, Long clientId,String counselor, String job);
 
     List<Client> searchClient(String keyword);
 

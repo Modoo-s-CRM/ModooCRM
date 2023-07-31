@@ -27,8 +27,9 @@ public class ClientController {
     @PostMapping
     public ResponseEntity registerClient(@Valid @RequestBody ClientRegisterDto clientRegisterDto){
         String counselor = clientRegisterDto.getCounselorName();
+        String job = clientRegisterDto.getJob();
         Client saveClient = clientMapper.clientRegisterDtoToClient(clientRegisterDto);
-        clientService.registerClient(saveClient,counselor);
+        clientService.registerClient(saveClient,counselor,job);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
@@ -36,8 +37,9 @@ public class ClientController {
     public ResponseEntity updateClient(@Valid @RequestBody ClientRegisterDto clientRegisterDto,
                                        @Positive @PathVariable("client-id") Long clientId){
         String counselor = clientRegisterDto.getCounselorName();
+        String job = clientRegisterDto.getJob();
         Client saveClient = clientMapper.clientRegisterDtoToClient(clientRegisterDto);
-        clientService.updateClient(saveClient,clientId,counselor);
+        clientService.updateClient(saveClient,clientId,counselor,job);
         //무한재귀 문제 -> response 요청시 mapper 사용
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }

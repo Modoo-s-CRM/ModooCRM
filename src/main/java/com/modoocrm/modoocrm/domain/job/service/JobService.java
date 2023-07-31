@@ -1,8 +1,8 @@
 package com.modoocrm.modoocrm.domain.job.service;
 
-import org.springframework.stereotype.Service;
+import com.modoocrm.modoocrm.domain.job.entity.Job;
 
-@Service
-public class JobService {
+public interface JobService {
 
+    Job findJob(String job);
 }

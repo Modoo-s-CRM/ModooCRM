@@ -23,7 +23,10 @@ public enum ExceptionCode {
     // IMAGE
     IMAGE_UPLOAD_FAILED(500, "Image Upload Failed"),
     IMAGE_NOT_FOUND(404, "Counsel Image Not Found"),
-    IMAGE_FILE_NOT_DELETE(500, "Image Not Delete");
+    IMAGE_FILE_NOT_DELETE(500, "Image Not Delete"),
+
+    // JOB
+    JOB_NOT_FOUND(404, "Job Not Found");
 
     @Getter
     private int status;

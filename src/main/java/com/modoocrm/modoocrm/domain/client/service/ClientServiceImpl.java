@@ -4,6 +4,8 @@ import com.modoocrm.modoocrm.domain.client.entity.Client;
 import com.modoocrm.modoocrm.domain.client.repository.ClientRepository;
 import com.modoocrm.modoocrm.domain.counselor.entity.Counselor;
 import com.modoocrm.modoocrm.domain.counselor.service.CounselorService;
+import com.modoocrm.modoocrm.domain.job.entity.Job;
+import com.modoocrm.modoocrm.domain.job.service.JobService;
 import com.modoocrm.modoocrm.global.error.exception.BusinessLogicException;
 import com.modoocrm.modoocrm.global.error.exception.ExceptionCode;
 import org.springframework.stereotype.Service;
@@ -21,22 +23,28 @@ public class ClientServiceImpl implements ClientService {
     private final ClientRepository clientRepository;
     private final CounselorService counselorService;
 
-    public ClientServiceImpl(ClientRepository clientRepository, CounselorService counselorService) {
+    private final JobService jobService;
+
+    public ClientServiceImpl(ClientRepository clientRepository, CounselorService counselorService, JobService jobService) {
         this.clientRepository = clientRepository;
         this.counselorService = counselorService;
+        this.jobService = jobService;
     }
 
     @Override
-    public void registerClient(Client client, String counselor) {
+    public void registerClient(Client client, String counselor, String job) {
         Counselor findCounselor = counselorService.findVerifiedCounselor(counselor);
         findCounselor.addClient(client);
         client.setCounselor(findCounselor);
+        Job findJob = jobService.findJob(job);
+        client.setJob(findJob);
         clientRepository.save(client);
     }
 
     @Override
-    public Client updateClient(Client client, Long clientId, String counselor) {
+    public void updateClient(Client client, Long clientId, String counselor, String job) {
         Counselor findCounselor = counselorService.findVerifiedCounselor(counselor);
+        Job findJob = jobService.findJob(job);
         Client findClient = findVerifiedClient(clientId);
         Client updateClient = this.setClientIfPresent(client, findClient);
         if (updateClient.getCounselProgress().equals("치료 상담")) {
@@ -46,8 +54,9 @@ public class ClientServiceImpl implements ClientService {
             updateClient.setEndCounsel(LocalDate.now());
         }
         updateClient.setCounselor(findCounselor);
+        updateClient.setJob(findJob);
         updateClient.setUpdateTime(LocalDateTime.now());
-        return clientRepository.save(updateClient);
+        clientRepository.save(updateClient);
     }
 
     @Override
@@ -69,9 +78,8 @@ public class ClientServiceImpl implements ClientService {
 
     //내담자 찾기
     public Client findVerifiedClient(Long client) {
-        Client findClient = clientRepository.findById(client).orElseThrow(
+        return clientRepository.findById(client).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.CLIENT_NOT_FOUND));
-        return findClient;
     }
 
     //x월에 해당하는 모든 내담자 수 가져오기
@@ -170,8 +178,8 @@ public class ClientServiceImpl implements ClientService {
                 .ifPresent(educationInfo -> findClient.setEducationInfo(educationInfo));
         Optional.ofNullable(client.getMarry())
                 .ifPresent(marry -> findClient.setMarry(marry));
-        Optional.ofNullable(client.getJob())
-                .ifPresent(job -> findClient.setJob(job));
+//        Optional.ofNullable(client.getJob())
+//                .ifPresent(job -> findClient.setJob(job));
         Optional.ofNullable(client.getCounselType())
                 .ifPresent(counselType -> findClient.setCounselType(counselType));
         Optional.ofNullable(client.getCounselMethod())
