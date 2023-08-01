@@ -42,4 +42,6 @@ public interface ClientService {
 
     Client findClientName(String name);
 
+    void saveClient(Client client);
+
 }

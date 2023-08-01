@@ -1,6 +1,7 @@
 package com.modoocrm.modoocrm.domain.parents.service;
 
 import com.modoocrm.modoocrm.domain.client.entity.Client;
+import com.modoocrm.modoocrm.domain.client.service.ClientService;
 import com.modoocrm.modoocrm.domain.client.service.ClientServiceImpl;
 import com.modoocrm.modoocrm.domain.parents.entity.Parents;
 import com.modoocrm.modoocrm.domain.parents.repository.ParentsRepository;
@@ -15,10 +16,10 @@ import java.util.Optional;
 @Service
 public class parentsServiceImpl implements ParentsService {
 
-    private final ClientServiceImpl clientService;
+    private final ClientService clientService;
     private final ParentsRepository parentsRepository;
 
-    public parentsServiceImpl(ClientServiceImpl clientService, ParentsRepository parentsRepository) {
+    public parentsServiceImpl(ClientService clientService, ParentsRepository parentsRepository) {
         this.clientService = clientService;
         this.parentsRepository = parentsRepository;
     }
@@ -26,8 +27,9 @@ public class parentsServiceImpl implements ParentsService {
     @Override
     public void registerParents(Parents parents, Long clientId) {
         Client client = clientService.findVerifiedClient(clientId);
-        parents.setClient(client);
-        parentsRepository.save(parents);
+        Parents saveParents = parentsRepository.save(parents);
+        client.setParents(saveParents);
+        clientService.saveClient(client);
     }
 
     @Override

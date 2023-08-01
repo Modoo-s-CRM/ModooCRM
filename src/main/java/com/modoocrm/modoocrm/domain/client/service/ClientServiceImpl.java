@@ -135,6 +135,10 @@ public class ClientServiceImpl implements ClientService {
         );
     }
 
+    public void saveClient(Client client){
+        clientRepository.save(client);
+    }
+
     private Client.CounselType transferCounselType(String counselType) {
         if (counselType == null){
             return null;

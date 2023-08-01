@@ -1,7 +1,7 @@
 package com.modoocrm.modoocrm.domain.client.entity;
 
 import com.modoocrm.modoocrm.domain.base.BaseModel;
-import com.modoocrm.modoocrm.domain.counseldiary.entity.CounselDiary;
+import com.modoocrm.modoocrm.domain.counseldiary.entity.CounselSchedule;
 import com.modoocrm.modoocrm.domain.counselimage.entity.CounselImage;
 import com.modoocrm.modoocrm.domain.counselor.entity.Counselor;
 import com.modoocrm.modoocrm.domain.family.entity.Family;
@@ -14,6 +14,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -125,9 +126,11 @@ public class Client extends BaseModel {
     private CounselImage counselImage;
 
     @OneToMany(mappedBy = "client")
-    private List<CounselDiary> counselDiary;
+    private List<CounselSchedule> counselSchedules = new ArrayList<>();
 
-    @OneToOne(mappedBy = "client")
+    @Setter
+    @OneToOne
+    @JoinColumn(name = "parents_id")
     private Parents parents;
 
     @Setter
@@ -140,12 +143,6 @@ public class Client extends BaseModel {
     @JoinColumn(name = "counselor_id")
     private Counselor counselor;
 
-    public void addCouselorDiary(CounselDiary counselDiary){
-        this.counselDiary.add(counselDiary);
-        if (counselDiary.getClient() != this){
-            counselDiary.setClient(this);
-        }
-    }
 
     public enum CounselType{
         ADULT("성인 상담"),

@@ -25,6 +25,9 @@ public enum ExceptionCode {
     IMAGE_NOT_FOUND(404, "Counsel Image Not Found"),
     IMAGE_FILE_NOT_DELETE(500, "Image Not Delete"),
 
+    // COUNSEL_SCHEDULE
+    COUNSEL_SCHEDULE_NOT_FOUND(404, "Counsel Schedule Not Found"),
+
     // FAMILY
     FAMILY_NOT_FOUND(404, "Family Not Found"),
 

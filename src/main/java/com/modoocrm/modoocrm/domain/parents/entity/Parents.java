@@ -48,11 +48,6 @@ public class Parents {
     @Column(nullable = false, length = 20)
     private String together;
 
-    @Setter
-    @OneToOne
-    @JoinColumn(name = "client_id")
-    private Client client;
-
     @Builder
     public Parents(String fatherName, String motherName, int fatherAge, int motherAge,
                    String fatherEducationInfo, String motherEducationInfo, String fatherJob, String motherJob, String together){
