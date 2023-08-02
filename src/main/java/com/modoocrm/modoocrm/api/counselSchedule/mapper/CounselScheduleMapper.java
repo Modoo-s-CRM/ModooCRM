@@ -1,8 +1,11 @@
 package com.modoocrm.modoocrm.api.counselSchedule.mapper;
 
 import com.modoocrm.modoocrm.api.counselSchedule.dto.CounselScheduleRegisterDto;
+import com.modoocrm.modoocrm.api.counselSchedule.dto.CounselScheduleRepDto;
 import com.modoocrm.modoocrm.api.counselSchedule.dto.CounselScheduleUpdateDto;
 import com.modoocrm.modoocrm.domain.counseldiary.entity.CounselSchedule;
+import com.modoocrm.modoocrm.global.error.exception.BusinessLogicException;
+import com.modoocrm.modoocrm.global.error.exception.ExceptionCode;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +19,7 @@ public class CounselScheduleMapper {
 
     public CounselSchedule counselScheduleRegisterDtoToCounselSchedule(
             CounselScheduleRegisterDto counselScheduleRegisterDto) {
+        //todo 2023-08-01 예외처리 필요
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime theDayCounselDate = LocalDateTime.parse(counselScheduleRegisterDto.getTheDayCounselDate(), formatter);
 
@@ -51,6 +55,19 @@ public class CounselScheduleMapper {
                 .cureCounselCount(counselScheduleUpdateDto.getCureCounselCount())
                 .nextCounselDate(nextCounselDate)
                 .note(counselScheduleUpdateDto.getNote())
+                .build();
+    }
+
+    public CounselScheduleRepDto counselScheduleToCounselScheduleRepDto(CounselSchedule counselSchedule){
+        if (counselSchedule == null){
+            throw new BusinessLogicException(ExceptionCode.COUNSEL_SCHEDULE_NOT_EXIST);
+        }
+        return CounselScheduleRepDto.builder()
+                .theDayCounselDate(counselSchedule.getTheDayCounselDate())
+                .firstCounselCount(counselSchedule.getFirstCounselCount())
+                .cureCounselCount(counselSchedule.getCureCounselCount())
+                .nextCounselDate(counselSchedule.getNextCounselDate())
+                .note(counselSchedule.getNote())
                 .build();
     }
 }

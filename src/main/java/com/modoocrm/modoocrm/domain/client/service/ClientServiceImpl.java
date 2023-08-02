@@ -52,6 +52,10 @@ public class ClientServiceImpl implements ClientService {
         if (updateClient.getCounselProgress().equals("초진 상담 종결") || updateClient.getCounselProgress().equals("치료 상담 종결")){
             updateClient.setEndCounsel(LocalDate.now());
         }
+        if (updateClient.getCounselProgress().equals("초진 상담")){
+            updateClient.setIsCure(false);
+        }
+
         updateClient.setCounselor(findCounselor);
         updateClient.setJob(findJob);
         updateClient.setUpdateTime(LocalDateTime.now());

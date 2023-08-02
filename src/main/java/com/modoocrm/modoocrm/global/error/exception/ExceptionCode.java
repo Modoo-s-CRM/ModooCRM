@@ -27,6 +27,8 @@ public enum ExceptionCode {
 
     // COUNSEL_SCHEDULE
     COUNSEL_SCHEDULE_NOT_FOUND(404, "Counsel Schedule Not Found"),
+    COUNSEL_SCHEDULE_NOT_EXIST(404, "보내주신 날짜의 상담 일정은 없습니다."),
+    INVALID_REQUEST_DATE(404, "날짜 형식을 올바르게 써주세요"),
 
     // FAMILY
     FAMILY_NOT_FOUND(404, "Family Not Found"),

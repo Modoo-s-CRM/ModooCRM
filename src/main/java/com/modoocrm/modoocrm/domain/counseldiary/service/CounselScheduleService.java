@@ -7,4 +7,6 @@ public interface CounselScheduleService {
     void registerCounselSchedule(Long clientId, CounselSchedule counselSchedule);
 
     void updateCounselSchedule(Long counselScheduleId, CounselSchedule counselSchedule);
+
+    CounselSchedule getCounselSchedule(Long clientId, String date);
 }

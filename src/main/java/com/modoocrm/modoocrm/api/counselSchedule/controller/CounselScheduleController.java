@@ -41,4 +41,12 @@ public class CounselScheduleController {
         counselScheduleService.updateCounselSchedule(counselScheduleId, counselSchedule);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
+
+
+    @GetMapping("/{client-id}")
+    public ResponseEntity getCounselSchedule(@Positive @PathVariable("client-id") Long clientId,
+                                             @RequestParam(name = "date") String date){
+        CounselSchedule findCounselSchedule = counselScheduleService.getCounselSchedule(clientId,date);
+        return new ResponseEntity(counselScheduleMapper.counselScheduleToCounselScheduleRepDto(findCounselSchedule), HttpStatus.OK);
+    }
 }
