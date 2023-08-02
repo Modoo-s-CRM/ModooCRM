@@ -32,6 +32,7 @@ public enum ExceptionCode {
 
     // FAMILY
     FAMILY_NOT_FOUND(404, "Family Not Found"),
+    FAMILY_NOT_REGISTER(404, "Family Info Not Register"),
 
     // JOB
     JOB_NOT_FOUND(404, "Job Not Found");

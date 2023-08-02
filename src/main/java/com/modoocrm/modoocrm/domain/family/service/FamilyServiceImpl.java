@@ -70,6 +70,15 @@ public class FamilyServiceImpl implements FamilyService{
         familyRepository.delete(findFamily);
     }
 
+    @Override
+    public Family getFamilyInfo(Long clientId) {
+        Client findClient = clientService.findVerifiedClient(clientId);
+        if (findClient.getFamily() == null){
+            throw new BusinessLogicException(ExceptionCode.FAMILY_NOT_REGISTER);
+        }
+        return findClient.getFamily();
+    }
+
     private Family findVerifiedFamily(Long familyId){
         return familyRepository.findById(familyId).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.FAMILY_NOT_FOUND)
