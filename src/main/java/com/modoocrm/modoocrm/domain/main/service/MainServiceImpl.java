@@ -58,7 +58,7 @@ public class MainServiceImpl implements MainService{
 
         //받은 date 값으로 공지 가져오기
 
-
+        return null;
     }
 
 
