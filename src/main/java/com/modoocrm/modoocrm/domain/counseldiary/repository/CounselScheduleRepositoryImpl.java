@@ -7,6 +7,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public class CounselScheduleRepositoryImpl implements CounselScheduleCustomRepository{
@@ -28,5 +29,17 @@ public class CounselScheduleRepositoryImpl implements CounselScheduleCustomRepos
                         cs.theDayCounselDate.between(startTime, endTime)
                         )
                 .fetchOne();
+    }
+
+    @Override
+    public List<CounselSchedule> findCounselSchedule(LocalDateTime startTime, LocalDateTime endTime) {
+        QCounselSchedule cs = QCounselSchedule.counselSchedule;
+
+        return queryFactory
+                .selectFrom(cs)
+                .where(
+                        cs.nextCounselDate.between(startTime, endTime)
+                )
+                .fetch();
     }
 }

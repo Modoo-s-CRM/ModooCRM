@@ -57,6 +57,7 @@ public class ClientController {
         return new ResponseEntity(clientMapper.clientSearchResponseDtos(clients),HttpStatus.OK);
     }
 
+    //Todo 페이징 처리 필요
     @GetMapping("/search")
     public ResponseEntity searchFilterClient(
             @RequestParam(required = false, name = "counselType") String counselType,

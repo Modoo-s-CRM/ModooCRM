@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -74,6 +75,10 @@ public class CounselScheduleServiceImpl implements CounselScheduleService{
     private LocalDateTime convertToEndDate(String date){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return LocalDateTime.parse(date + " 23:59:59", formatter);
+    }
+
+    public List<CounselSchedule> getCounselSchedules(LocalDateTime startTime, LocalDateTime endTime){
+        return counselScheduleRepository.findCounselSchedule(startTime,endTime);
     }
 
 }

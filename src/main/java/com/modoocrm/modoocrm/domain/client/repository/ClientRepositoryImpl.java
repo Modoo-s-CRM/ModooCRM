@@ -129,6 +129,13 @@ public class ClientRepositoryImpl implements ClientCustomRepository {
                         selectDate(startDate,endDate)
                         )
                 .fetch();
+
+        //Todo 페이징 처리 로직 , pageNumber는 파라미터로 받아야함.
+//        int pageSize = 10;
+
+//        .offset(adjustedPageNumber * pageSize)
+//                .limit(pageSize)
+//                .fetch();
     }
 
     private BooleanExpression eqCounselType(Client.CounselType transferCounselType) {

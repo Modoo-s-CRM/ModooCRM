@@ -26,6 +26,7 @@ public class NoticeServiceImpl implements NoticeService{
         this.noticeRepository = noticeRepository;
     }
 
+    //Todo 스케줄러 삭제는 일주일정도로 수정해야함. -> 이야기 나눠볼 필요
     @Override
     public Long registerNotice(Notice registerNotice) {
         this.checkParameterDate(registerNotice.getNoticeDate());
