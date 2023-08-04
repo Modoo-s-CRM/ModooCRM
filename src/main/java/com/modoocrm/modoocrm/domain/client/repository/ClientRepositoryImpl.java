@@ -116,6 +116,17 @@ public class ClientRepositoryImpl implements ClientCustomRepository {
     }
 
     @Override
+    public List<Client> getThisMonthFristCounselClient(LocalDateTime startMonth, LocalDateTime endMonth) {
+        QClient client = QClient.client;
+        return queryFactory
+                .selectFrom(client)
+                .where(
+                        client.firstCounsel.between(startMonth,endMonth)
+                )
+                .fetch();
+    }
+
+    @Override
     public List<Client> searchFilterClient(Client.CounselType transferCounselType, String counselorName, String ageGroup,
                                            String clientGender, String counselProgress, String startDate, String endDate) {
         QClient client = QClient.client;

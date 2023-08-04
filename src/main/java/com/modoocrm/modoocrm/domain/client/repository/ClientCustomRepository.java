@@ -22,4 +22,6 @@ public interface ClientCustomRepository {
 
     List<Client> searchFilterClient(Client.CounselType transferCounselType, String counselorName, String ageGroup,
                                     String clientGender, String counselProgress, String startDate, String endDate);
+
+    List<Client> getThisMonthFristCounselClient(LocalDateTime startMonth, LocalDateTime endMonth);
 }

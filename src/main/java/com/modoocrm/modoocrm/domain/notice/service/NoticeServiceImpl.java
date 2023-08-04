@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,6 +55,7 @@ public class NoticeServiceImpl implements NoticeService{
 
     @Override
     public NoticeResponseDtos getNotices(String date) {
+        this.checkDate(date);
         LocalDate parameterDate = LocalDate.parse(date);
 
         //todo 오늘 날짜 기준 이전 날짜가 들어오면 예외 발생
@@ -96,10 +98,21 @@ public class NoticeServiceImpl implements NoticeService{
         return noticeResponseDtos;
     }
 
+    @Override
+    public List<Notice> getMainNotice(LocalDateTime startTime, LocalDateTime endTime) {
+        return noticeRepository.findByNoticeDateBetween(startTime, endTime);
+    }
 
     private Notice findVerifiedNotice(Long noticeId){
         return noticeRepository.findById(noticeId).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.NOTICE_NOT_FOUND));
+    }
+
+    private void checkDate(String date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        if (!Pattern.matches("\\d{4}-\\d{2}-\\d{2}", date)) {
+            throw new BusinessLogicException(ExceptionCode.INVALID_REQUEST_DATE);
+        }
     }
 
     //공지 자동 삭제 - 스프링 스케줄링

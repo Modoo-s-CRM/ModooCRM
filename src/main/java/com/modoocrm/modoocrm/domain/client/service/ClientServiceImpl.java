@@ -49,7 +49,9 @@ public class ClientServiceImpl implements ClientService {
         if (updateClient.getCounselProgress().equals("치료 상담")) {
             updateClient.setIsCure(true);
         }
-        if (updateClient.getCounselProgress().equals("초진 상담 종결") || updateClient.getCounselProgress().equals("치료 상담 종결")){
+        if (updateClient.getCounselProgress().equals("초진 상담 종결")
+                || updateClient.getCounselProgress().equals("치료 상담 종결")
+                || updateClient.getCounselProgress().equals("환불")){
             updateClient.setEndCounsel(LocalDate.now());
         }
         if (updateClient.getCounselProgress().equals("초진 상담")){
@@ -83,6 +85,14 @@ public class ClientServiceImpl implements ClientService {
     public Client findVerifiedClient(Long client) {
         return clientRepository.findById(client).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.CLIENT_NOT_FOUND));
+    }
+
+    //메인 페이지 초진 개수
+
+
+    @Override
+    public List<Client> getThisMonthFristCounselClient(LocalDateTime startMonth, LocalDateTime endMonth) {
+        return clientRepository.getThisMonthFristCounselClient(startMonth,endMonth);
     }
 
     //x월에 해당하는 모든 내담자 수 가져오기
