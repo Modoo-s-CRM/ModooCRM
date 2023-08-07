@@ -91,7 +91,7 @@ public class ClientServiceImpl implements ClientService {
 
 
     @Override
-    public List<Client> getThisMonthFristCounselClient(LocalDateTime startMonth, LocalDateTime endMonth) {
+    public List<Client> getThisMonthFirstCounselClient(LocalDateTime startMonth, LocalDateTime endMonth) {
         return clientRepository.getThisMonthFristCounselClient(startMonth,endMonth);
     }
 

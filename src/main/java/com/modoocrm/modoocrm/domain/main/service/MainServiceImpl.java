@@ -1,22 +1,17 @@
 package com.modoocrm.modoocrm.domain.main.service;
 
-import com.modoocrm.modoocrm.api.main.dto.MainCounselScheduleDto;
-import com.modoocrm.modoocrm.api.main.dto.MainNoticeDto;
-import com.modoocrm.modoocrm.api.main.dto.MainRepDto;
-import com.modoocrm.modoocrm.api.main.dto.MainThisMonthClientDto;
+import com.modoocrm.modoocrm.api.main.dto.*;
 import com.modoocrm.modoocrm.domain.client.entity.Client;
 import com.modoocrm.modoocrm.domain.client.service.ClientService;
 import com.modoocrm.modoocrm.domain.counseldiary.entity.CounselSchedule;
 import com.modoocrm.modoocrm.domain.counseldiary.service.CounselScheduleService;
 import com.modoocrm.modoocrm.domain.notice.entity.Notice;
-import com.modoocrm.modoocrm.domain.notice.repository.NoticeRepository;
 import com.modoocrm.modoocrm.domain.notice.service.NoticeService;
 import com.modoocrm.modoocrm.global.error.exception.BusinessLogicException;
 import com.modoocrm.modoocrm.global.error.exception.ExceptionCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -46,7 +41,7 @@ public class MainServiceImpl implements MainService{
     public MainRepDto getMainInfo(String date) { //date 형식 : 2022-10-11
         this.checkDate(date);
         //받은 date 값으로 상담일정을 먼저 가져오자
-        //Todo 값이 많으면 페이징 처리 필요 -> 필요 없음
+        //Todo 값이 많으면 페이징 처리 필요 -> 필요 없음, 휠 처리
         LocalDateTime startTime = this.convertToStartDate(date);
         LocalDateTime endTime = this.convertToEndDate(date);
 
@@ -84,10 +79,10 @@ public class MainServiceImpl implements MainService{
         List<MainNoticeDto> mainNoticeDtos = optionalMainNoticeDtos
                 .orElseGet(() -> Collections.singletonList(MainNoticeDto.emptyNoticeDto()));
 
-        //date에 해당하는 월 초진 상담 개수 가져오기
-        LocalDateTime startMonth = this.convertTostartMonth(date);
+        //date에 해당하는 월 초진 내담자 정보와 상담 유형 가져오기
+        LocalDateTime startMonth = this.convertToStartMonth(date);
         LocalDateTime endMonth = this.convertToEndMonth(date);
-        List<Client> clientList = clientService.getThisMonthFristCounselClient(startMonth,endMonth);
+        List<Client> clientList = clientService.getThisMonthFirstCounselClient(startMonth,endMonth);
         Optional<List<MainThisMonthClientDto>> optionalMainThisMonthClientDtos = Optional.ofNullable(clientList)
                 .map(clients ->clients.stream()
                                 .map(client -> MainThisMonthClientDto.builder()
@@ -99,8 +94,27 @@ public class MainServiceImpl implements MainService{
         List<MainThisMonthClientDto> mainThisMonthClientDtos = optionalMainThisMonthClientDtos
                 .orElseGet(() -> Collections.singletonList(MainThisMonthClientDto.emptyMainThisMonthClientDto()));
 
+        //Todo date에 해당하는 월의 다음 달 초진 내담자 정보와 상담 유형 가져오기
+        LocalDateTime startNextMonth = this.convertToStartMonth(date).plusMonths(1);
+        LocalDateTime endNextMonth = this.convertToEndMonth(date).plusMonths(1);
+        List<Client> nextClientList = clientService.getThisMonthFirstCounselClient(startNextMonth, endNextMonth);
+        Optional<List<MainNextMonthClientDto>> optionalMainNextMonthClientDtos = Optional.ofNullable(nextClientList)
+                .map(clients -> clients.stream()
+                        .map(client -> MainNextMonthClientDto.builder()
+                                .clientName(client.getClientName())
+                                .counselType(client.getCounselType().getCounselTypeDescription())
+                                .build())
+                        .collect(Collectors.toList())
+                );
+        List<MainNextMonthClientDto> nextMonthClientDtos = optionalMainNextMonthClientDtos
+                .orElseGet(() -> Collections.singletonList(MainNextMonthClientDto.emptyMainNextMonthClientDto()));
 
-        return null;
+        return MainRepDto.builder()
+                .counselSchedules(mainCounselScheduleDtos)
+                .notices(mainNoticeDtos)
+                .thisMonthClients(mainThisMonthClientDtos)
+                .nextMonthClients(nextMonthClientDtos)
+                .build();
     }
 
 
@@ -123,7 +137,7 @@ public class MainServiceImpl implements MainService{
     }
 
     //시분초가 0인 LocalDateTime 형식 ex) 2023-07-31 00:00:00
-    private LocalDateTime convertTostartMonth(String date){
+    private LocalDateTime convertToStartMonth(String date){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime dateTime = LocalDateTime.parse(date + " 00:00:00", formatter);
         return dateTime.withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0);
@@ -131,8 +145,10 @@ public class MainServiceImpl implements MainService{
 
     private LocalDateTime convertToEndMonth(String date){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate localDate = LocalDate.parse(date + " 00:00:00", formatter);
-        int lastDayOfMonth = localDate.lengthOfMonth();
-        return localDate.withDayOfMonth(lastDayOfMonth).atTime(LocalTime.MAX);
+        LocalDate localDate = LocalDate.parse(date,formatter);
+        LocalDate lastDayOfMonth = localDate.withDayOfMonth(localDate.lengthOfMonth());
+
+        LocalDateTime endOfMonth = lastDayOfMonth.atTime(LocalTime.MAX);
+        return endOfMonth;
     }
 }

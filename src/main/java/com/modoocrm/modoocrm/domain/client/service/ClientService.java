@@ -44,6 +44,6 @@ public interface ClientService {
 
     void saveClient(Client client);
 
-    List<Client> getThisMonthFristCounselClient(LocalDateTime startMonth, LocalDateTime endMonth);
+    List<Client> getThisMonthFirstCounselClient(LocalDateTime startMonth, LocalDateTime endMonth);
 
 }
