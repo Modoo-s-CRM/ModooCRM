@@ -1,9 +1,6 @@
 package com.modoocrm.modoocrm.domain.statistics.service;
 
-import com.modoocrm.modoocrm.api.statistics.dto.CounselTypeRepDto;
-import com.modoocrm.modoocrm.api.statistics.dto.CureRepDto;
-import com.modoocrm.modoocrm.api.statistics.dto.FirstCounselRepDto;
-import com.modoocrm.modoocrm.api.statistics.dto.SymptomRepDto;
+import com.modoocrm.modoocrm.api.statistics.dto.*;
 
 public interface StatisticsService {
 
@@ -14,4 +11,6 @@ public interface StatisticsService {
     FirstCounselRepDto getFirstCounselStats(String year);
 
     CureRepDto getCureStats(String year);
+
+    JobRepDto getJobStats(String month);
 }

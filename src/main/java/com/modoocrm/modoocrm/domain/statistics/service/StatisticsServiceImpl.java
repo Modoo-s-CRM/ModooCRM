@@ -1,9 +1,6 @@
 package com.modoocrm.modoocrm.domain.statistics.service;
 
-import com.modoocrm.modoocrm.api.statistics.dto.CounselTypeRepDto;
-import com.modoocrm.modoocrm.api.statistics.dto.CureRepDto;
-import com.modoocrm.modoocrm.api.statistics.dto.FirstCounselRepDto;
-import com.modoocrm.modoocrm.api.statistics.dto.SymptomRepDto;
+import com.modoocrm.modoocrm.api.statistics.dto.*;
 import com.modoocrm.modoocrm.domain.client.entity.Client;
 import com.modoocrm.modoocrm.domain.client.service.ClientService;
 import org.springframework.stereotype.Service;
@@ -191,6 +188,11 @@ public class StatisticsServiceImpl implements StatisticsService{
         cureRepDto.setData(cureStatsList);
 
         return cureRepDto;
+    }
+
+    @Override
+    public JobRepDto getJobStats(String month) {
+        return null;
     }
 
     private double percentage(int anyCount, int monthClientCount){

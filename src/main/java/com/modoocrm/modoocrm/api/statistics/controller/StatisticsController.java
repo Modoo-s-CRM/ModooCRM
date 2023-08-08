@@ -48,4 +48,11 @@ public class StatisticsController {
         CureRepDto cureRepDto = statisticsService.getCureStats(year);
         return new ResponseEntity(cureRepDto, HttpStatus.OK);
     }
+
+    //직업별 상담 통계
+    @GetMapping("/occupation")
+    public ResponseEntity getJobStats(@RequestParam("month") String month){
+        statisticsService.getJobStats(month);
+        return null;
+    }
 }
