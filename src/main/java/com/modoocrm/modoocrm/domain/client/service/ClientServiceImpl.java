@@ -104,17 +104,17 @@ public class ClientServiceImpl implements ClientService {
     //성인,부부,커플,청소년,태교 상담 카운트 수
     @Override
     public int adultCount(LocalDateTime startDate, LocalDateTime endDate) {
-        return (int) clientRepository.adultCouselTypeCount(startDate, endDate);
+        return (int) clientRepository.adultCounselTypeCount(startDate, endDate);
     }
 
     @Override
     public int marriedCoupleCount(LocalDateTime startDate, LocalDateTime endDate) {
-        return (int) clientRepository.marriedCoupleCouselTypeCount(startDate, endDate);
+        return (int) clientRepository.marriedCoupleCounselTypeCount(startDate, endDate);
     }
 
     @Override
     public int coupleCount(LocalDateTime startDate, LocalDateTime endDate) {
-        return (int) clientRepository.coupleCouselTypeCount(startDate, endDate);
+        return (int) clientRepository.coupleCounselTypeCount(startDate, endDate);
     }
 
     @Override
@@ -124,12 +124,16 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public int youthCount(LocalDateTime startDate, LocalDateTime endDate) {
-        return (int) clientRepository.youthCouselTypeCount(startDate, endDate);
+        return (int) clientRepository.youthCounselTypeCount(startDate, endDate);
     }
 
     @Override
     public int antenatalCount(LocalDateTime startDate, LocalDateTime endDate) {
-        return (int) clientRepository.antenatalCouselTypeCount(startDate, endDate);
+        return (int) clientRepository.antenatalCounselTypeCount(startDate, endDate);
+    }
+    @Override
+    public int groupCount(LocalDateTime startDate, LocalDateTime endDate) {
+        return (int) clientRepository.groupCounselTypeCount(startDate,endDate);
     }
 
     @Override

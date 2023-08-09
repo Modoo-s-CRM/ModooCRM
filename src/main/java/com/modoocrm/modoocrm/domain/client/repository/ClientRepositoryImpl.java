@@ -23,7 +23,7 @@ public class ClientRepositoryImpl implements ClientCustomRepository {
 
     //월별 총 내담자들 중 counselType이 성인인 카운트
     @Override
-    public long adultCouselTypeCount(LocalDateTime startDate, LocalDateTime endDate) {
+    public long adultCounselTypeCount(LocalDateTime startDate, LocalDateTime endDate) {
         QClient client = QClient.client;
         return queryFactory
                 .selectFrom(client)
@@ -35,7 +35,7 @@ public class ClientRepositoryImpl implements ClientCustomRepository {
     }
 
     @Override
-    public long marriedCoupleCouselTypeCount(LocalDateTime startDate, LocalDateTime endDate) {
+    public long marriedCoupleCounselTypeCount(LocalDateTime startDate, LocalDateTime endDate) {
         QClient client = QClient.client;
         return queryFactory
                 .selectFrom(client)
@@ -48,7 +48,7 @@ public class ClientRepositoryImpl implements ClientCustomRepository {
     }
 
     @Override
-    public long coupleCouselTypeCount(LocalDateTime startDate, LocalDateTime endDate) {
+    public long coupleCounselTypeCount(LocalDateTime startDate, LocalDateTime endDate) {
         QClient client = QClient.client;
         return queryFactory
                 .selectFrom(client)
@@ -72,7 +72,7 @@ public class ClientRepositoryImpl implements ClientCustomRepository {
     }
 
     @Override
-    public long youthCouselTypeCount(LocalDateTime startDate, LocalDateTime endDate) {
+    public long youthCounselTypeCount(LocalDateTime startDate, LocalDateTime endDate) {
         QClient client = QClient.client;
         return queryFactory
                 .selectFrom(client)
@@ -84,13 +84,25 @@ public class ClientRepositoryImpl implements ClientCustomRepository {
     }
 
     @Override
-    public long antenatalCouselTypeCount(LocalDateTime startDate, LocalDateTime endDate) {
+    public long antenatalCounselTypeCount(LocalDateTime startDate, LocalDateTime endDate) {
         QClient client = QClient.client;
         return queryFactory
                 .selectFrom(client)
                 .where(
                         client.firstCounsel.between(startDate, endDate),
                         client.counselType.eq(Client.CounselType.ANTENATAL)
+                )
+                .fetchCount();
+    }
+
+    @Override
+    public long groupCounselTypeCount(LocalDateTime startDate, LocalDateTime endDate) {
+        QClient client = QClient.client;
+        return queryFactory
+                .selectFrom(client)
+                .where(
+                        client.firstCounsel.between(startDate,endDate),
+                        client.counselType.eq(Client.CounselType.GROUP)
                 )
                 .fetchCount();
     }

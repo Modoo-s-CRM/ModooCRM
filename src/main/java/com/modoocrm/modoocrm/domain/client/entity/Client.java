@@ -82,7 +82,7 @@ public class Client extends BaseModel {
 
     @Setter
     @Column(nullable = false, length = 20)
-    private String counselMethod;
+    private String counselMethod; // 상담 방법 -> 대면, ZOOM, 채팅
 
     @Setter
     @Column(nullable = false, length = 20)
@@ -168,7 +168,6 @@ public class Client extends BaseModel {
             }
             throw new BusinessLogicException(ExceptionCode.INVALID_COUNSEL_TYPE);
         }
-
     }
 
     @Builder

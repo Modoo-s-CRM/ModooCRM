@@ -36,6 +36,8 @@ public interface ClientService {
 
     int antenatalCount(LocalDateTime startDate, LocalDateTime endDate);
 
+    int groupCount(LocalDateTime startDate, LocalDateTime endDate);
+
     List<Client> clientsInYear(LocalDateTime startDate, LocalDateTime endDate);
 
     List<Client> clientsInYearAndCure(LocalDateTime startDate, LocalDateTime endDate);

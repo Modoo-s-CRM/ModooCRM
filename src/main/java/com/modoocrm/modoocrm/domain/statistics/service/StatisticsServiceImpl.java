@@ -80,6 +80,10 @@ public class StatisticsServiceImpl implements StatisticsService{
         int antenatalCount = clientService.antenatalCount(startDate,endDate);
         double antenatalPercentage = this.percentage(antenatalCount,monthClientCount);
 
+        //그룹
+        int groupCount = clientService.groupCount(startDate,endDate);
+        double groupPercentage = this.percentage(groupCount, monthClientCount);
+
 
         //todo 이놈의 반복되는 코드들 리팩토링 필수!
         CounselTypeRepDto counselTypeRepDto = new CounselTypeRepDto();
@@ -121,6 +125,14 @@ public class StatisticsServiceImpl implements StatisticsService{
                 .build();
         statsCounselTypes.add(antenatal);
 
+        //todo 그룹상담 추가
+        CounselTypeRepDto.StatsCounselType group = CounselTypeRepDto.StatsCounselType.builder()
+                .counselType(Client.CounselType.GROUP.getCounselTypeDescription())
+                .ratio(groupPercentage)
+                .build();
+        statsCounselTypes.add(group);
+
+
         counselTypeRepDto.setData(statsCounselTypes);
         return counselTypeRepDto;
     }
@@ -159,6 +171,7 @@ public class StatisticsServiceImpl implements StatisticsService{
         return firstCounselRepDto;
     }
 
+    //치료율
     @Override
     public CureRepDto getCureStats(String year) {
         int yearValue = Integer.parseInt(year.replaceAll("[^0-9]",""));
@@ -190,8 +203,10 @@ public class StatisticsServiceImpl implements StatisticsService{
         return cureRepDto;
     }
 
+    //직업별 상담 통계
     @Override
     public JobRepDto getJobStats(String month) {
+        // 월별 총 내담자 수 가져오기
         return null;
     }
 
