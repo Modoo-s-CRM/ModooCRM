@@ -25,6 +25,7 @@ public class ClientInfoResponseDto {
     private String counselMethod;
     private String inflowPath;
     private String symptom;
+    private String symptomGrade;
     private String counselHistory;
     private String counselProgress;
     private LocalDateTime firstCounsel;
@@ -40,8 +41,8 @@ public class ClientInfoResponseDto {
     @Builder
     public ClientInfoResponseDto(String clientName, LocalDate birth, int age, String clientGender, String address, String phone,
                                  String hobby, String height, String weight, String educationInfo, String marry, String job,
-                                 String counselType, String counselMethod, String inflowPath, String symptom, String counselHistory,
-                                 String counselProgress, LocalDateTime firstCounsel, String specialNote,
+                                 String counselType, String counselMethod, String inflowPath, String symptom, String symptomGrade,
+                                 String counselHistory, String counselProgress, LocalDateTime firstCounsel, String specialNote,
                                  String counselorName, String counselorGender,
                                  String applicationFormImagePath, String selfAptitudeImagePath, String landscapeImagePath){
         this.clientName = clientName;
@@ -60,6 +61,7 @@ public class ClientInfoResponseDto {
         this.counselMethod = counselMethod;
         this.inflowPath = inflowPath;
         this.symptom = symptom;
+        this.symptomGrade = symptomGrade;
         this.counselHistory = counselHistory;
         this.counselProgress = counselProgress;
         this.firstCounsel = firstCounsel;

@@ -93,6 +93,10 @@ public class Client extends BaseModel {
     private String symptom;
 
     @Setter
+    @Enumerated(EnumType.STRING)
+    private SymptomGrade symptomGrade;
+
+    @Setter
     @Column(nullable = false, length = 20)
     private String counselHistory;
 
@@ -170,11 +174,36 @@ public class Client extends BaseModel {
         }
     }
 
+    public enum SymptomGrade{
+        FIRST_GRADE("1등급"),
+        SECOND_GRADE("2등급"),
+        THIRD_GRADE("3등급"),
+        FOURTH_GRADE("4등급");
+
+        @Getter
+        private String symptomGradeDescription;
+
+        SymptomGrade(String symptomGradeDescription){
+            this.symptomGradeDescription = symptomGradeDescription;
+        }
+
+        public static SymptomGrade findByDescription(String description){
+            for (SymptomGrade symptomGrade : values() ){
+                if (symptomGrade.getSymptomGradeDescription().equals(description)){
+                    return symptomGrade;
+                }
+            }
+            throw new BusinessLogicException(ExceptionCode.INVALID_SYMPTOM_GRADE);
+        }
+    }
+
+
+
     @Builder
     public Client(String clientName, LocalDate birth, int age, String clientGender, String address, String phone,
                   String hobby, String height, String weight, String educationInfo, String marry,
-                  String counselType, String counselMethod, String inflowPath, String symptom, String counselHistory,
-                  String counselProgress, LocalDateTime firstCounsel, String specialNote){
+                  String counselType, String counselMethod, String inflowPath, String symptom, String symptomGrade,
+                  String counselHistory, String counselProgress, LocalDateTime firstCounsel, String specialNote){
         this.clientName = clientName;
         this.birth = birth;
         this.age = age;
@@ -190,6 +219,7 @@ public class Client extends BaseModel {
         this.counselMethod = counselMethod;
         this.inflowPath = inflowPath;
         this.symptom = symptom;
+        this.symptomGrade = SymptomGrade.findByDescription(symptomGrade);
         this.counselHistory = counselHistory;
         this.counselProgress = counselProgress;
         this.firstCounsel = firstCounsel;

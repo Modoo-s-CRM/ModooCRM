@@ -59,6 +59,9 @@ public class ClientRegisterDto {
     @NotBlank(message = "심리 증상은 필수 입력 값입니다.")
     private String symptom;
 
+    @NotBlank(message = "증상 등급은 필수 입력 값입니다.")
+    private String symptomGrade;
+
     @NotBlank(message = "상담 경력은 필수 입력 값입니다.")
     private String counselHistory;
 

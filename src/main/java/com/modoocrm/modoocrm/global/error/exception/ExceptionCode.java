@@ -6,6 +6,7 @@ public enum ExceptionCode {
     // CLIENT
     CLIENT_NOT_FOUND(404, "Client not found"),
     INVALID_COUNSEL_TYPE(404,"Invalid Counsel Type"),
+    INVALID_SYMPTOM_GRADE(404, "Invalid Symptom Grade"),
 
     // PARENTS
     PARENTS_NOT_FOUND(404, "Parents not found"),
