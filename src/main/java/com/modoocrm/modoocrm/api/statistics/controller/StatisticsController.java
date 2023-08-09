@@ -3,6 +3,7 @@ package com.modoocrm.modoocrm.api.statistics.controller;
 import com.modoocrm.modoocrm.api.statistics.dto.CounselTypeRepDto;
 import com.modoocrm.modoocrm.api.statistics.dto.CureRepDto;
 import com.modoocrm.modoocrm.api.statistics.dto.FirstCounselRepDto;
+import com.modoocrm.modoocrm.api.statistics.dto.SymptomRepDto;
 import com.modoocrm.modoocrm.domain.statistics.service.StatisticsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +25,8 @@ public class StatisticsController {
     //증상별 통계
     @GetMapping("/symptom")
     public ResponseEntity getSymptomStats(@RequestParam("month") String month){
-        statisticsService.getSymptomStats(month);
-        return null;
+        SymptomRepDto symptomRepDto = statisticsService.getSymptomStats(month);
+        return new ResponseEntity(symptomRepDto,HttpStatus.OK);
     }
 
     //상담 유형별 통계

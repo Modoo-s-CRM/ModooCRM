@@ -30,22 +30,25 @@ public class StatisticsServiceImpl implements StatisticsService{
         // month를 LocalDate로 바꾼다.
         LocalDateTime startDate = this.monthToStartDate(month);
         LocalDateTime endDate = this.monthToEndDate(month);
-        System.out.println(startDate);
-        System.out.println(endDate);
+
         //월별 총 내담자 수
-        int monthClientCount = clientService.monthFirstCounselCount(startDate, endDate);
+        int monthTotalClientCount = clientService.monthFirstCounselCount(startDate, endDate);
 
-        //증상 가져오기 -> month에 해당하면서
+        //월별 내담자들 중 증상 등급별로 그룹화
+        Map<Client.SymptomGrade, Long> symptomGradeCounts = clientService.monthSymptomGradeCounts(startDate,endDate);
 
-        //우울증
+        List<SymptomRepDto.StatsSymptom> statsSymptoms = symptomGradeCounts.entrySet().stream()
+                .map(entry -> SymptomRepDto.StatsSymptom.builder()
+                        .symptomGrade(entry.getKey().getSymptomGradeDescription())
+                        .ratio((double) entry.getValue() / monthTotalClientCount * 100)
+                        .build())
+                .sorted((s1,s2) -> Double.compare(s2.getRatio(),s1.getRatio()))
+                .collect(Collectors.toList());
 
-        //불안
+        SymptomRepDto symptomRepDto = new SymptomRepDto();
+        symptomRepDto.setData(statsSymptoms);
 
-        //스트레스
-
-        //공황
-
-        return null;
+        return symptomRepDto;
     }
 
     @Override

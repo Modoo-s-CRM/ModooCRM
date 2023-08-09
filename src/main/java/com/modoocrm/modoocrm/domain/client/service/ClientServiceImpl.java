@@ -14,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -87,12 +89,10 @@ public class ClientServiceImpl implements ClientService {
                 () -> new BusinessLogicException(ExceptionCode.CLIENT_NOT_FOUND));
     }
 
-    //메인 페이지 초진 개수
-
 
     @Override
     public List<Client> getThisMonthFirstCounselClient(LocalDateTime startMonth, LocalDateTime endMonth) {
-        return clientRepository.getThisMonthFristCounselClient(startMonth,endMonth);
+        return clientRepository.getThisMonthFirstCounselClient(startMonth,endMonth);
     }
 
     //x월에 해당하는 모든 내담자 수 가져오기
@@ -151,6 +151,18 @@ public class ClientServiceImpl implements ClientService {
         return clientRepository.findByClientName(name).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.CLIENT_NOT_FOUND)
         );
+    }
+
+    @Override
+    public Map<Client.SymptomGrade, Long> monthSymptomGradeCounts(LocalDateTime startDate, LocalDateTime endDate){
+        List<Client> clients = clientRepository.getThisMonthFirstCounselClient(startDate, endDate);
+
+        Map<Client.SymptomGrade, Long> symptomGradeIntegerMap = clients.stream()
+                .collect(Collectors.groupingBy(
+                        Client::getSymptomGrade, // 증상 등급별, key값
+                        Collectors.counting() //내담자 수 계산, value값
+                ));
+        return symptomGradeIntegerMap;
     }
 
     public void saveClient(Client client){

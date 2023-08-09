@@ -4,6 +4,7 @@ import com.modoocrm.modoocrm.domain.client.entity.Client;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public interface ClientService {
 
@@ -47,5 +48,7 @@ public interface ClientService {
     void saveClient(Client client);
 
     List<Client> getThisMonthFirstCounselClient(LocalDateTime startMonth, LocalDateTime endMonth);
+
+    Map<Client.SymptomGrade, Long> monthSymptomGradeCounts(LocalDateTime startDate, LocalDateTime endDate);
 
 }

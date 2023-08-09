@@ -128,7 +128,7 @@ public class ClientRepositoryImpl implements ClientCustomRepository {
     }
 
     @Override
-    public List<Client> getThisMonthFristCounselClient(LocalDateTime startMonth, LocalDateTime endMonth) {
+    public List<Client> getThisMonthFirstCounselClient(LocalDateTime startMonth, LocalDateTime endMonth) {
         QClient client = QClient.client;
         return queryFactory
                 .selectFrom(client)
